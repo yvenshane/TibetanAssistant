@@ -11,6 +11,8 @@
 		2CE18C62214A7EE800AA468A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C61214A7EE800AA468A /* Assets.xcassets */; };
 		2CE18C65214A7EE800AA468A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C63214A7EE800AA468A /* LaunchScreen.storyboard */; };
 		2CE18C68214A7EE900AA468A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C67214A7EE900AA468A /* main.m */; };
+		2CE18C81214A8A5000AA468A /* VENMainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C80214A8A5000AA468A /* VENMainViewController.m */; };
+		2CE18C85214A8A8800AA468A /* VENTabBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C84214A8A8800AA468A /* VENTabBarView.m */; };
 		7FAE7B3FF8BB600C75A43520 /* libPods-TibetanAssistant.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7697D52352EEF09162B18F6F /* libPods-TibetanAssistant.a */; };
 /* End PBXBuildFile section */
 
@@ -23,6 +25,10 @@
 		2CE18C66214A7EE800AA468A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2CE18C67214A7EE900AA468A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2CE18C6F214A7FC100AA468A /* VENPrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VENPrefixHeader.pch; sourceTree = "<group>"; };
+		2CE18C7F214A8A5000AA468A /* VENMainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENMainViewController.h; sourceTree = "<group>"; };
+		2CE18C80214A8A5000AA468A /* VENMainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENMainViewController.m; sourceTree = "<group>"; };
+		2CE18C83214A8A8800AA468A /* VENTabBarView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENTabBarView.h; sourceTree = "<group>"; };
+		2CE18C84214A8A8800AA468A /* VENTabBarView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENTabBarView.m; sourceTree = "<group>"; };
 		7697D52352EEF09162B18F6F /* libPods-TibetanAssistant.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TibetanAssistant.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95F0847E7480B1456DC8F7CB /* Pods-TibetanAssistant.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TibetanAssistant.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TibetanAssistant/Pods-TibetanAssistant.debug.xcconfig"; sourceTree = "<group>"; };
 		E0C8C945A5AC22835F03FCC4 /* Pods-TibetanAssistant.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TibetanAssistant.release.xcconfig"; path = "Pods/Target Support Files/Pods-TibetanAssistant/Pods-TibetanAssistant.release.xcconfig"; sourceTree = "<group>"; };
@@ -61,6 +67,7 @@
 		2CE18C57214A7EE800AA468A /* TibetanAssistant */ = {
 			isa = PBXGroup;
 			children = (
+				2CE18C73214A863700AA468A /* Classes */,
 				2CE18C58214A7EE800AA468A /* AppDelegate.h */,
 				2CE18C59214A7EE800AA468A /* AppDelegate.m */,
 				2CE18C61214A7EE800AA468A /* Assets.xcassets */,
@@ -70,6 +77,57 @@
 				2CE18C6F214A7FC100AA468A /* VENPrefixHeader.pch */,
 			);
 			path = TibetanAssistant;
+			sourceTree = "<group>";
+		};
+		2CE18C73214A863700AA468A /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				2CE18C77214A874900AA468A /* Main */,
+			);
+			path = Classes;
+			sourceTree = SOURCE_ROOT;
+		};
+		2CE18C74214A863700AA468A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				2CE18C7F214A8A5000AA468A /* VENMainViewController.h */,
+				2CE18C80214A8A5000AA468A /* VENMainViewController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		2CE18C75214A863700AA468A /* Model */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		2CE18C76214A863700AA468A /* View */ = {
+			isa = PBXGroup;
+			children = (
+				2CE18C82214A8A6C00AA468A /* TabBar */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		2CE18C77214A874900AA468A /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				2CE18C75214A863700AA468A /* Model */,
+				2CE18C76214A863700AA468A /* View */,
+				2CE18C74214A863700AA468A /* Controller */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		2CE18C82214A8A6C00AA468A /* TabBar */ = {
+			isa = PBXGroup;
+			children = (
+				2CE18C83214A8A8800AA468A /* VENTabBarView.h */,
+				2CE18C84214A8A8800AA468A /* VENTabBarView.m */,
+			);
+			path = TabBar;
 			sourceTree = "<group>";
 		};
 		DD2C40DB17B966337B642D5C /* Pods */ = {
@@ -161,15 +219,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-TibetanAssistant/Pods-TibetanAssistant-resources.sh",
 				"${PODS_ROOT}/MJRefresh/MJRefresh/MJRefresh.bundle",
 			);
 			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/MJRefresh.bundle",
 			);
@@ -183,15 +237,11 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
 				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
 				"${PODS_ROOT}/Manifest.lock",
 			);
 			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Pods-TibetanAssistant-checkManifestLockResult.txt",
 			);
@@ -209,6 +259,8 @@
 			files = (
 				2CE18C68214A7EE900AA468A /* main.m in Sources */,
 				2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */,
+				2CE18C85214A8A8800AA468A /* VENTabBarView.m in Sources */,
+				2CE18C81214A8A5000AA468A /* VENMainViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
