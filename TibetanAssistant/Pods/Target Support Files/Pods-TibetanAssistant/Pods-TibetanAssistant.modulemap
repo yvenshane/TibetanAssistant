@@ -1,0 +1,6 @@
+module Pods_TibetanAssistant {
+  umbrella header "Pods-TibetanAssistant-umbrella.h"
+
+  export *
+  module * { export * }
+}
