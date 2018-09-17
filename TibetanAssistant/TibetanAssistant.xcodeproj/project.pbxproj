@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */; };
 		2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C59214A7EE800AA468A /* AppDelegate.m */; };
 		2CE18C62214A7EE800AA468A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C61214A7EE800AA468A /* Assets.xcassets */; };
 		2CE18C65214A7EE800AA468A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C63214A7EE800AA468A /* LaunchScreen.storyboard */; };
@@ -17,6 +18,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2CE18C55214A7EE800AA468A /* TibetanAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TibetanAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE18C58214A7EE800AA468A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		2CE18C59214A7EE800AA468A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */,
 				7FAE7B3FF8BB600C75A43520 /* libPods-TibetanAssistant.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -142,6 +145,7 @@
 		DF2929C2BCFBD6BA462751FE /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */,
 				7697D52352EEF09162B18F6F /* libPods-TibetanAssistant.a */,
 			);
 			name = Frameworks;
@@ -394,6 +398,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YZ49LT3V26;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TibetanAssistant/VENPrefixHeader.pch";
 				INFOPLIST_FILE = TibetanAssistant/Info.plist;
@@ -414,6 +419,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = YZ49LT3V26;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SRCROOT)/TibetanAssistant/VENPrefixHeader.pch";
 				INFOPLIST_FILE = TibetanAssistant/Info.plist;

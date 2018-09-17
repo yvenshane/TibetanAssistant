@@ -8,12 +8,15 @@
 
 #import "VENMainViewController.h"
 #import "VENTabBarView.h"
+#import "sqlite3.h"
 
 @interface VENMainViewController ()
 
 @end
 
-@implementation VENMainViewController
+@implementation VENMainViewController {
+    sqlite3 *db;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +25,42 @@
     self.view.backgroundColor = [UIColor redColor];
     
     [self setupTabBar];
+    
+    
+    NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SQL.db"];
+    int result = sqlite3_open(SQLPath.UTF8String, &db);
+    
+    if (result == SQLITE_OK) {
+        NSLog(@"数据库创建打开成功");
+        
+        NSString *createSQL = @"create table if not exists tablewords(id integer primary key,homophonic text not null,name text not null,styleid integer);";
+        
+        char *errmsg = NULL;
+        
+        sqlite3_exec(db, createSQL.UTF8String, NULL, NULL, &errmsg);
+        if (errmsg == nil) {
+            NSLog(@"建表成功");
+        }
+    }
+    
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    // 新增SQL语句
+    NSString *insertSQL = @"insert into tablewords(homophonic,name,styleid) values('叽里呱啦','吃了没','3');";
+    // 保存错误信息
+    char *errmsg = NULL;
+    
+    sqlite3_exec(db, insertSQL.UTF8String, NULL, NULL, &errmsg);
+    if (errmsg == nil) {
+        
+        // 获取影响的行数
+        int changes = sqlite3_changes(db);
+        NSLog(@"insert影响的行数 %d",changes);
+        
+        NSLog(@"新增成功");
+    }
+    
 }
 
 - (void)setupTabBar {
