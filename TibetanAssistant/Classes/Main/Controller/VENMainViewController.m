@@ -8,6 +8,7 @@
 
 #import "VENMainViewController.h"
 #import "VENTabBarView.h"
+#import "VENNavigationBar.h"
 #import "sqlite3.h"
 
 @interface VENMainViewController ()
@@ -18,14 +19,20 @@
     sqlite3 *db;
 }
 
+- (void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
+    [UIApplication sharedApplication].statusBarStyle =  UIStatusBarStyleLightContent;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor redColor];
     
+    [self setupNavigationBar];
     [self setupTabBar];
-    
     
     NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SQL.db"];
     int result = sqlite3_open(SQLPath.UTF8String, &db);
@@ -61,6 +68,12 @@
         NSLog(@"新增成功");
     }
     
+}
+
+- (void)setupNavigationBar {
+    VENNavigationBar *navBar = [[VENNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 20 + 16 + 73 / 2 + 8 + 40)];
+    navBar.backgroundColor = UIColorMake(0, 156, 132);
+    [self.view addSubview:navBar];
 }
 
 - (void)setupTabBar {
