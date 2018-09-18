@@ -10,6 +10,8 @@
 
 @interface VENTabBarView ()
 @property (nonatomic, strong) NSMutableArray<UIButton *> *tabBarButtonsMuArr;
+@property (nonatomic, strong) UIView *lineView;
+
 @end
 
 @implementation VENTabBarView
@@ -49,11 +51,15 @@
             
             [button setTitleEdgeInsets:UIEdgeInsetsMake(verticalSpace + imageSize.height + buttonSpace, (buttonSize.width - titleSize.width)/2.0 - imageSize.width, verticalSpace, (buttonSize.width - titleSize.width)/2.0)];
             
-
-            
             [self addSubview:button];
             [self.tabBarButtonsMuArr addObject:button];
         }
+        
+        UIView *lineView = [[UIView alloc] init];
+        lineView.backgroundColor = UIColorFromRGB(0xf3f3f3);
+        [self addSubview:lineView];
+        
+        self.lineView = lineView;
     }
     return self;
 }
@@ -71,8 +77,10 @@
     CGFloat buttonWidth = kMainScreenWidth / 3;
     
     for (NSInteger i = 0; i < _tabBarButtonsMuArr.count; i++) {
-        _tabBarButtonsMuArr[i].frame = CGRectMake(buttonWidth * i, 0, buttonWidth, 49);
+        _tabBarButtonsMuArr[i].frame = CGRectMake(buttonWidth * i, 1, buttonWidth, 49);
     }
+    
+    self.lineView.frame = CGRectMake(0, 0, kMainScreenWidth, 1);
 }
 
 - (NSMutableArray *)tabBarButtonsMuArr {

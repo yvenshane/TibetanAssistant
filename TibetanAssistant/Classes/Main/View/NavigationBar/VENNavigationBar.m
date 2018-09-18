@@ -12,7 +12,7 @@
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UITextField *searchBarTextField;
 @property (nonatomic, strong) UIView *toolsView;
-@property (nonatomic, strong) NSMutableArray <UIButton *>*buttonsMuArr;
+@property (nonatomic, strong) NSMutableArray<UIButton *> *buttonsMuArr;
 @property (nonatomic, strong) NSMutableArray *buttonsTitleMuArr;
 
 @end
@@ -55,12 +55,18 @@
         for (NSInteger i = 0; i < 3; i++) {
             UIButton *button = [[UIButton alloc] init];
             [button setTitle:self.buttonsTitleMuArr[i] forState:UIControlStateNormal];
-            button.tag = i;
+            button.tag = i + 1;
+            
             [button setTitleColor:UIColorMake(166, 238, 227) forState:UIControlStateNormal];
+            [button setTitleColor:UIColorMake(0, 112, 107) forState:UIControlStateSelected];
+            
+            [button setBackgroundImage:[UIImage imageNamed:@"nav_lv"] forState:UIControlStateNormal];
+            [button setBackgroundImage:[UIImage imageNamed:@"nav_bai"] forState:UIControlStateSelected];
+            
             [self.buttonsMuArr addObject:button];
             [toolsView addSubview:button];
+            [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
         }
-        
         
         self.logoImageView = logoImageView;
         self.searchBarTextField = searchBarTextField;
@@ -78,7 +84,15 @@
     self.toolsView.frame = CGRectMake(0, 20 + 16 + 73 / 2 + 8, kMainScreenWidth, 40);
     
     for (NSInteger i = 0; i < 3; i++) {
-        _buttonsMuArr[i].frame = CGRectMake(i * kMainScreenWidth / 3, 0, kMainScreenWidth / 3, 40);
+        _buttonsMuArr[i].frame = CGRectMake(i * kMainScreenWidth / 3, 0, kMainScreenWidth / 3, 40.5);
+    }
+}
+
+- (void)buttonClick:(UIButton *)button {
+    
+    for (UIButton *btn in _buttonsMuArr) {
+        button.selected = YES;
+        btn.selected = btn.tag == button.tag ? YES : NO;
     }
 }
 

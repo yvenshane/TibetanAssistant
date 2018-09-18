@@ -11,10 +11,11 @@
 #import "VENNavigationBar.h"
 #import "sqlite3.h"
 
-@interface VENMainViewController ()
+@interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
 
 @end
 
+static NSString *cellIdentifier = @"cellIdentifier";
 @implementation VENMainViewController {
     sqlite3 *db;
 }
@@ -33,6 +34,7 @@
     
     [self setupNavigationBar];
     [self setupTabBar];
+    [self setupTableView];
     
     NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SQL.db"];
     int result = sqlite3_open(SQLPath.UTF8String, &db);
@@ -52,26 +54,45 @@
     
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
-    // 新增SQL语句
-    NSString *insertSQL = @"insert into tablewords(homophonic,name,styleid) values('叽里呱啦','吃了没','3');";
-    // 保存错误信息
-    char *errmsg = NULL;
+//- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+//    // 新增SQL语句
+//    NSString *insertSQL = @"insert into tablewords(homophonic,name,styleid) values('叽里呱啦','吃了没','3');";
+//    // 保存错误信息
+//    char *errmsg = NULL;
+//    
+//    sqlite3_exec(db, insertSQL.UTF8String, NULL, NULL, &errmsg);
+//    if (errmsg == nil) {
+//        
+//        // 获取影响的行数
+//        int changes = sqlite3_changes(db);
+//        NSLog(@"insert影响的行数 %d",changes);
+//        
+//        NSLog(@"新增成功");
+//    }
+//    
+//}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    return 0;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    return cell;
+}
+
+- (void)setupTableView {
+    UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - 120.5 - 49) style:UITableViewStylePlain];
+    tableView.delegate = self;
+    tableView.dataSource = self;
+    [self.view addSubview:tableView];
     
-    sqlite3_exec(db, insertSQL.UTF8String, NULL, NULL, &errmsg);
-    if (errmsg == nil) {
-        
-        // 获取影响的行数
-        int changes = sqlite3_changes(db);
-        NSLog(@"insert影响的行数 %d",changes);
-        
-        NSLog(@"新增成功");
-    }
-    
+    tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)setupNavigationBar {
-    VENNavigationBar *navBar = [[VENNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 20 + 16 + 73 / 2 + 8 + 40)];
+    VENNavigationBar *navBar = [[VENNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 120.5)];
     navBar.backgroundColor = UIColorMake(0, 156, 132);
     [self.view addSubview:navBar];
 }
