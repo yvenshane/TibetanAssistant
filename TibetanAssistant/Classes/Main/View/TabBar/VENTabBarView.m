@@ -19,9 +19,10 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
         
+        self.backgroundColor = [UIColor whiteColor];
+        
         NSArray *titleArr = @[@"首页", @"收藏", @"更多"];
         NSArray *imageArr = @[@"tabBar1", @"tabBar2", @"tabBar3"];
-        
         
         for (NSInteger i = 0; i < 3; i++) {
             UIButton *button = [[UIButton alloc] init];
@@ -56,7 +57,7 @@
         }
         
         UIView *lineView = [[UIView alloc] init];
-        lineView.backgroundColor = UIColorFromRGB(0xf3f3f3);
+        lineView.backgroundColor = UIColorMake(221, 221, 221);
         [self addSubview:lineView];
         
         self.lineView = lineView;

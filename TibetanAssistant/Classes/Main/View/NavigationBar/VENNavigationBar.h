@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^ReturnValueBlock) (NSString *strValue, NSInteger buttonTag, NSString *buttonTitle);
 @interface VENNavigationBar : UIView
+@property(nonatomic, copy) ReturnValueBlock returnValueBlock;
 
 @end

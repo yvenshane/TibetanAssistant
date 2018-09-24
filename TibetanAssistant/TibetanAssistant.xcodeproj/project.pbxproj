@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2C2484E4215104B500E20B06 /* VENPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2484E3215104B500E20B06 /* VENPopView.m */; };
+		2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2484E621520B6200E20B06 /* VENMainTableViewCell.m */; };
 		2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */; };
 		2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C59214A7EE800AA468A /* AppDelegate.m */; };
 		2CE18C62214A7EE800AA468A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C61214A7EE800AA468A /* Assets.xcassets */; };
@@ -19,6 +21,10 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2C2484E2215104B500E20B06 /* VENPopView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENPopView.h; sourceTree = "<group>"; };
+		2C2484E3215104B500E20B06 /* VENPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENPopView.m; sourceTree = "<group>"; };
+		2C2484E521520B6200E20B06 /* VENMainTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENMainTableViewCell.h; sourceTree = "<group>"; };
+		2C2484E621520B6200E20B06 /* VENMainTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENMainTableViewCell.m; sourceTree = "<group>"; };
 		2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2CE18C55214A7EE800AA468A /* TibetanAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TibetanAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE18C58214A7EE800AA468A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -52,6 +58,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2C2484E12151049C00E20B06 /* PopView */ = {
+			isa = PBXGroup;
+			children = (
+				2C2484E2215104B500E20B06 /* VENPopView.h */,
+				2C2484E3215104B500E20B06 /* VENPopView.m */,
+			);
+			path = PopView;
+			sourceTree = "<group>";
+		};
 		2CE18C4C214A7EE800AA468A = {
 			isa = PBXGroup;
 			children = (
@@ -112,8 +127,11 @@
 		2CE18C76214A863700AA468A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2C2484E12151049C00E20B06 /* PopView */,
 				2CF95397214FE13B0039EFD8 /* NavigationBar */,
 				2CE18C82214A8A6C00AA468A /* TabBar */,
+				2C2484E521520B6200E20B06 /* VENMainTableViewCell.h */,
+				2C2484E621520B6200E20B06 /* VENMainTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -276,7 +294,9 @@
 			files = (
 				2CE18C68214A7EE900AA468A /* main.m in Sources */,
 				2CF9539A214FE15F0039EFD8 /* VENNavigationBar.m in Sources */,
+				2C2484E4215104B500E20B06 /* VENPopView.m in Sources */,
 				2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */,
+				2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */,
 				2CE18C85214A8A8800AA468A /* VENTabBarView.m in Sources */,
 				2CE18C81214A8A5000AA468A /* VENMainViewController.m in Sources */,
 			);

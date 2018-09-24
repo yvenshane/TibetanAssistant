@@ -22,6 +22,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
     if (self == [super initWithFrame:frame]) {
         
+        self.backgroundColor = UIColorMake(0, 156, 132);
+        
         // logo
         UIImageView *logoImageView = [[UIImageView alloc] init];
         logoImageView.image = [UIImage imageNamed:@"nav_logo"];
@@ -63,6 +65,8 @@
             [button setBackgroundImage:[UIImage imageNamed:@"nav_lv"] forState:UIControlStateNormal];
             [button setBackgroundImage:[UIImage imageNamed:@"nav_bai"] forState:UIControlStateSelected];
             
+            button.adjustsImageWhenHighlighted = NO;
+            
             [self.buttonsMuArr addObject:button];
             [toolsView addSubview:button];
             [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -90,10 +94,29 @@
 
 - (void)buttonClick:(UIButton *)button {
     
+    NSLog(@"第%ld个button", (long)button.tag);
+    
+//    NSNotification *notification =[NSNotification notificationWithName:@"tongzhi" object:niluserInfo:dict];
+//    [[NSNotificationCenter defaultCenter] postNotification:notification];
+
+    
     for (UIButton *btn in _buttonsMuArr) {
         button.selected = YES;
         btn.selected = btn.tag == button.tag ? YES : NO;
+        
+        if (btn.selected == YES) {
+            
+            __weak typeof(self) weakself = self;
+            if (weakself.returnValueBlock) {
+                weakself.returnValueBlock(@"show", button.tag, button.titleLabel.text);
+            }
+//            else {
+//                weakself.returnValueBlock(@"hidden");
+//            }
+        }
     }
+    
+    
 }
 
 - (NSMutableArray *)buttonsMuArr {

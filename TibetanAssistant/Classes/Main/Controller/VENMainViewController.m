@@ -9,9 +9,21 @@
 #import "VENMainViewController.h"
 #import "VENTabBarView.h"
 #import "VENNavigationBar.h"
+#import "VENPopView.h"
+#import "VENMainTableViewCell.h"
 #import "sqlite3.h"
 
 @interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
+@property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr1;
+@property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr2;
+@property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr3;
+
+@property (nonatomic, strong) NSMutableArray *dataMuArr;
+
+@property (nonatomic, assign) CGFloat cellMaxHeight;
+
+@property (nonatomic, strong) VENNavigationBar *popView;
+@property (nonatomic, strong) UITableView *tableView;
 
 @end
 
@@ -32,26 +44,57 @@ static NSString *cellIdentifier = @"cellIdentifier";
     
     self.view.backgroundColor = [UIColor redColor];
     
-    [self setupNavigationBar];
-    [self setupTabBar];
+    // 底部
+    VENNavigationBar *navBar = [[VENNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 120.5)];
+    
+    __weak typeof(self) weakSelf = self;
+    navBar.returnValueBlock = ^(NSString *strValue, NSInteger buttonTag, NSString *buttonTitle) {
+        if ([strValue isEqualToString:@"show"]) {
+            
+            [weakSelf.popView removeFromSuperview];
+            weakSelf.popView = nil;
+            [weakSelf.dataMuArr removeAllObjects];
+            
+            if (buttonTag == 1) [weakSelf.dataMuArr addObjectsFromArray:self.secondTableTitleMuArr1];
+            else if (buttonTag == 2) [weakSelf.dataMuArr addObjectsFromArray:self.secondTableTitleMuArr2];
+            else [weakSelf.dataMuArr addObjectsFromArray:self.secondTableTitleMuArr3];
+            
+            [weakSelf.dataMuArr addObject:buttonTitle];
+            
+            [weakSelf popView];
+        }
+    };
+    [self.view addSubview:navBar];
+
+    // 顶部
+    VENTabBarView *tabBar = [[VENTabBarView alloc] initWithFrame:CGRectMake(0, kMainScreenHeight - 49, kMainScreenWidth, 49)];
+    [self.view addSubview:tabBar];
+    
     [self setupTableView];
     
-    NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SQL.db"];
-    int result = sqlite3_open(SQLPath.UTF8String, &db);
+    // 计算 cell 高度
+    VENMainTableViewCell *cell = [[VENMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    [cell layoutSubviews];
+    self.cellMaxHeight = cell.cellMaxHeight;
     
-    if (result == SQLITE_OK) {
-        NSLog(@"数据库创建打开成功");
-        
-        NSString *createSQL = @"create table if not exists tablewords(id integer primary key,homophonic text not null,name text not null,styleid integer);";
-        
-        char *errmsg = NULL;
-        
-        sqlite3_exec(db, createSQL.UTF8String, NULL, NULL, &errmsg);
-        if (errmsg == nil) {
-            NSLog(@"建表成功");
-        }
-    }
     
+//    NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"SQL.db"];
+//    int result = sqlite3_open(SQLPath.UTF8String, &db);
+//    
+//    if (result == SQLITE_OK) {
+//        NSLog(@"数据库创建打开成功");
+//        
+//        NSString *createSQL = @"create table if not exists tablewords(id integer primary key,homophonic text not null,name text not null,styleid integer);";
+//        
+//        char *errmsg = NULL;
+//        
+//        sqlite3_exec(db, createSQL.UTF8String, NULL, NULL, &errmsg);
+//        if (errmsg == nil) {
+//            NSLog(@"建表成功");
+//        }
+//    }
+    
+
 }
 
 //- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
@@ -73,34 +116,80 @@ static NSString *cellIdentifier = @"cellIdentifier";
 //}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return 0;
+    return 10;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//    VENMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
+    UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:cellIdentifier];
+    cell.textLabel.text = [NSString stringWithFormat:@"    %@", self.secondTableTitleMuArr3[indexPath.row]];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
+//    return self.cellMaxHeight;
+    return 44;
 }
 
 - (void)setupTableView {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - 120.5 - 49) style:UITableViewStylePlain];
     tableView.delegate = self;
     tableView.dataSource = self;
+    [tableView registerClass:[VENMainTableViewCell class] forCellReuseIdentifier:cellIdentifier];
     [self.view addSubview:tableView];
     
     tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    
+    _tableView = tableView;
 }
 
-- (void)setupNavigationBar {
-    VENNavigationBar *navBar = [[VENNavigationBar alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 120.5)];
-    navBar.backgroundColor = UIColorMake(0, 156, 132);
-    [self.view addSubview:navBar];
+- (VENPopView *)popView {
+    if (_popView == nil) {
+        CGFloat height = ceil(self.dataMuArr.count / 4.0) * 44 + 44;
+        VENPopView *popView = [[VENPopView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, height) setPopViewData:self.dataMuArr]; // 必须除以 4.0
+        
+        __weak typeof(self) weakSelf = self;
+        popView.returnButtonTagBlock = ^(NSInteger buttonTag, NSString *buttonTitle) {
+            NSLog(@"%ld", (long)buttonTag);
+            NSLog(@"%@", buttonTitle);
+        };
+        
+        [self.view addSubview:popView];
+        
+        _popView = popView;
+        
+        self.tableView.frame = CGRectMake(0, 120.5 + height, kMainScreenWidth, kMainScreenHeight - 120.5 - height - 49);
+    }
+    return _popView;
 }
 
-- (void)setupTabBar {
-    VENTabBarView *tabBar = [[VENTabBarView alloc] initWithFrame:CGRectMake(0, kMainScreenHeight - 49, kMainScreenWidth, 49)];
-    tabBar.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:tabBar];
+- (NSMutableArray *)dataMuArr {
+    if (_dataMuArr == nil) {
+        _dataMuArr = [NSMutableArray array];
+    }
+    return _dataMuArr;
+}
+
+- (NSMutableArray *)secondTableTitleMuArr1 {
+    if (_secondTableTitleMuArr1 == nil) {
+        _secondTableTitleMuArr1 = [NSMutableArray arrayWithArray:@[@"1", @"2", @"3", @"4", @"5", @"6", @"7", @"8", @"9", @"10", @"11"]];
+    }
+    return _secondTableTitleMuArr1;
+}
+
+- (NSMutableArray *)secondTableTitleMuArr2 {
+    if (_secondTableTitleMuArr2 == nil) {
+        _secondTableTitleMuArr2 = [NSMutableArray arrayWithArray:@[@"A", @"B", @"C", @"D", @"E", @"F"]];
+    }
+    return _secondTableTitleMuArr2;
+}
+
+- (NSMutableArray *)secondTableTitleMuArr3 {
+    if (_secondTableTitleMuArr3 == nil) {
+        _secondTableTitleMuArr3 = [NSMutableArray arrayWithArray:@[@"称谓", @"数字", @"时间", @"日期", @"季节", @"天气", @"交通", @"地名", @"民族", @"职业", @"单位", @"职业", @"单位"]];
+    }
+    return _secondTableTitleMuArr3;
 }
 
 - (void)didReceiveMemoryWarning {
