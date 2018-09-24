@@ -12,6 +12,7 @@
 #import "VENPopView.h"
 #import "VENMainTableViewCell.h"
 #import "sqlite3.h"
+#import "VENDataUpdateViewController.h"
 
 @interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
 @property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr1;
@@ -68,6 +69,12 @@ static NSString *cellIdentifier = @"cellIdentifier";
 
     // 顶部
     VENTabBarView *tabBar = [[VENTabBarView alloc] initWithFrame:CGRectMake(0, kMainScreenHeight - 49, kMainScreenWidth, 49)];
+    tabBar.blk = ^(NSString *str) {
+        if ([str isEqualToString:@"sjgx"]) {
+            VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+            [self presentViewController:vc animated:YES completion:nil];
+        }
+    };
     [self.view addSubview:tabBar];
     
     [self setupTableView];

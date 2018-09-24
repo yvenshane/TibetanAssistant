@@ -7,8 +7,9 @@
 //
 
 #import "VENTabBarView.h"
+#import "VENDataUpdateViewController.h"
 
-@interface VENTabBarView ()
+@interface VENTabBarView () <YBPopupMenuDelegate>
 @property (nonatomic, strong) NSMutableArray<UIButton *> *tabBarButtonsMuArr;
 @property (nonatomic, strong) UIView *lineView;
 
@@ -69,6 +70,31 @@
     for (UIButton *btn in _tabBarButtonsMuArr) {
         button.selected = YES;
         btn.selected = btn.tag == button.tag ? YES : NO;
+    }
+    
+    
+    if (button.tag == 3) {
+        
+        CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 3 / 2) , kMainScreenHeight - 51);
+        
+        [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:85 otherSettings:^(YBPopupMenu *popupMenu) {
+            popupMenu.dismissOnSelected = YES;
+            popupMenu.isShowShadow = YES;
+            popupMenu.delegate = self;
+            popupMenu.type = YBPopupMenuTypeDark;
+            popupMenu.textColor = [UIColor whiteColor];
+            popupMenu.backColor = COLOR_THEME;
+            popupMenu.arrowHeight = 8;
+            popupMenu.itemHeight = 30;
+            popupMenu.fontSize = 13.0f;
+            popupMenu.rectCorner = UIRectCornerTopLeft | UIRectCornerTopRight | UIRectCornerBottomLeft | UIRectCornerBottomRight;
+        }];
+    }
+}
+
+- (void)ybPopupMenuDidSelectedAtIndex:(NSInteger)index ybPopupMenu:(YBPopupMenu *)ybPopupMenu {
+    if (index == 1) {
+        self.blk(@"sjgx");
     }
 }
 

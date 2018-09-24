@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^finishBlock)(NSString *);
 @interface VENTabBarView : UIView
+@property (nonatomic, copy) finishBlock blk;
 
 @end

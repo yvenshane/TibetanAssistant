@@ -19,6 +19,7 @@
 //#import "SDWebImageManager.h"
 //
 //#import "VENUserTypeManager.h"
+#import <YBPopupMenu.h>
 
 #define kMainScreenFrameRect [UIScreen mainScreen].bounds
 #define kMainScreenWidth kMainScreenFrameRect.size.width

@@ -9,16 +9,8 @@
 /* Begin PBXBuildFile section */
 		2C2484E4215104B500E20B06 /* VENPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2484E3215104B500E20B06 /* VENPopView.m */; };
 		2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C2484E621520B6200E20B06 /* VENMainTableViewCell.m */; };
-		2C44C22621592A20008679BE /* GRRequestsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C20E21592A20008679BE /* GRRequestsManager.m */; };
-		2C44C22721592A20008679BE /* GRQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C21021592A20008679BE /* GRQueue.m */; };
-		2C44C22821592A20008679BE /* GRStreamInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C21421592A20008679BE /* GRStreamInfo.m */; };
-		2C44C22921592A20008679BE /* GRError.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C21521592A20008679BE /* GRError.m */; };
-		2C44C22A21592A20008679BE /* GRRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C21821592A20008679BE /* GRRequest.m */; };
-		2C44C22B21592A20008679BE /* GRDownloadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C21E21592A20008679BE /* GRDownloadRequest.m */; };
-		2C44C22C21592A20008679BE /* GRDeleteRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C22021592A20008679BE /* GRDeleteRequest.m */; };
-		2C44C22D21592A20008679BE /* GRListingRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C22121592A20008679BE /* GRListingRequest.m */; };
-		2C44C22E21592A20008679BE /* GRCreateDirectoryRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C22221592A20008679BE /* GRCreateDirectoryRequest.m */; };
-		2C44C22F21592A20008679BE /* GRUploadRequest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C44C22321592A20008679BE /* GRUploadRequest.m */; };
+		2C62430421593104005216D5 /* VENDataUpdateViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C62430221593104005216D5 /* VENDataUpdateViewController.m */; };
+		2C62430521593104005216D5 /* VENDataUpdateViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2C62430321593104005216D5 /* VENDataUpdateViewController.xib */; };
 		2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */; };
 		2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C59214A7EE800AA468A /* AppDelegate.m */; };
 		2CE18C62214A7EE800AA468A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 2CE18C61214A7EE800AA468A /* Assets.xcassets */; };
@@ -35,28 +27,9 @@
 		2C2484E3215104B500E20B06 /* VENPopView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENPopView.m; sourceTree = "<group>"; };
 		2C2484E521520B6200E20B06 /* VENMainTableViewCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENMainTableViewCell.h; sourceTree = "<group>"; };
 		2C2484E621520B6200E20B06 /* VENMainTableViewCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENMainTableViewCell.m; sourceTree = "<group>"; };
-		2C44C20E21592A20008679BE /* GRRequestsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRRequestsManager.m; sourceTree = "<group>"; };
-		2C44C21021592A20008679BE /* GRQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRQueue.m; sourceTree = "<group>"; };
-		2C44C21121592A20008679BE /* GRStreamInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRStreamInfo.h; sourceTree = "<group>"; };
-		2C44C21221592A20008679BE /* GRError.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRError.h; sourceTree = "<group>"; };
-		2C44C21321592A20008679BE /* GRQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRQueue.h; sourceTree = "<group>"; };
-		2C44C21421592A20008679BE /* GRStreamInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRStreamInfo.m; sourceTree = "<group>"; };
-		2C44C21521592A20008679BE /* GRError.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRError.m; sourceTree = "<group>"; };
-		2C44C21721592A20008679BE /* GRDownloadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDownloadRequest.h; sourceTree = "<group>"; };
-		2C44C21821592A20008679BE /* GRRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRRequest.m; sourceTree = "<group>"; };
-		2C44C21921592A20008679BE /* GRUploadRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRUploadRequest.h; sourceTree = "<group>"; };
-		2C44C21A21592A20008679BE /* GRCreateDirectoryRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRCreateDirectoryRequest.h; sourceTree = "<group>"; };
-		2C44C21B21592A20008679BE /* GRListingRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRListingRequest.h; sourceTree = "<group>"; };
-		2C44C21C21592A20008679BE /* GRDeleteRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRDeleteRequest.h; sourceTree = "<group>"; };
-		2C44C21D21592A20008679BE /* GRRequestProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRRequestProtocol.h; sourceTree = "<group>"; };
-		2C44C21E21592A20008679BE /* GRDownloadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRDownloadRequest.m; sourceTree = "<group>"; };
-		2C44C21F21592A20008679BE /* GRRequest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRRequest.h; sourceTree = "<group>"; };
-		2C44C22021592A20008679BE /* GRDeleteRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRDeleteRequest.m; sourceTree = "<group>"; };
-		2C44C22121592A20008679BE /* GRListingRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRListingRequest.m; sourceTree = "<group>"; };
-		2C44C22221592A20008679BE /* GRCreateDirectoryRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRCreateDirectoryRequest.m; sourceTree = "<group>"; };
-		2C44C22321592A20008679BE /* GRUploadRequest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GRUploadRequest.m; sourceTree = "<group>"; };
-		2C44C22421592A20008679BE /* GRRequestsManagerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRRequestsManagerProtocol.h; sourceTree = "<group>"; };
-		2C44C22521592A20008679BE /* GRRequestsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GRRequestsManager.h; sourceTree = "<group>"; };
+		2C62430121593104005216D5 /* VENDataUpdateViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENDataUpdateViewController.h; sourceTree = "<group>"; };
+		2C62430221593104005216D5 /* VENDataUpdateViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENDataUpdateViewController.m; sourceTree = "<group>"; };
+		2C62430321593104005216D5 /* VENDataUpdateViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = VENDataUpdateViewController.xib; sourceTree = "<group>"; };
 		2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2CE18C55214A7EE800AA468A /* TibetanAssistant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TibetanAssistant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CE18C58214A7EE800AA468A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
@@ -99,57 +72,30 @@
 			path = PopView;
 			sourceTree = "<group>";
 		};
-		2C44C1B521592998008679BE /* FTP */ = {
+		2C6242F82159302A005216D5 /* More */ = {
 			isa = PBXGroup;
 			children = (
-				2C44C20D21592A20008679BE /* Sources */,
+				2C6242FC21593062005216D5 /* DataUpdate */,
 			);
-			path = FTP;
+			path = More;
 			sourceTree = "<group>";
 		};
-		2C44C20D21592A20008679BE /* Sources */ = {
+		2C6242FC21593062005216D5 /* DataUpdate */ = {
 			isa = PBXGroup;
 			children = (
-				2C44C20E21592A20008679BE /* GRRequestsManager.m */,
-				2C44C20F21592A20008679BE /* Utils */,
-				2C44C21621592A20008679BE /* Requests */,
-				2C44C22421592A20008679BE /* GRRequestsManagerProtocol.h */,
-				2C44C22521592A20008679BE /* GRRequestsManager.h */,
+				2C6242FD2159306B005216D5 /* Controller */,
 			);
-			path = Sources;
+			path = DataUpdate;
 			sourceTree = "<group>";
 		};
-		2C44C20F21592A20008679BE /* Utils */ = {
+		2C6242FD2159306B005216D5 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				2C44C21021592A20008679BE /* GRQueue.m */,
-				2C44C21121592A20008679BE /* GRStreamInfo.h */,
-				2C44C21221592A20008679BE /* GRError.h */,
-				2C44C21321592A20008679BE /* GRQueue.h */,
-				2C44C21421592A20008679BE /* GRStreamInfo.m */,
-				2C44C21521592A20008679BE /* GRError.m */,
+				2C62430121593104005216D5 /* VENDataUpdateViewController.h */,
+				2C62430221593104005216D5 /* VENDataUpdateViewController.m */,
+				2C62430321593104005216D5 /* VENDataUpdateViewController.xib */,
 			);
-			path = Utils;
-			sourceTree = "<group>";
-		};
-		2C44C21621592A20008679BE /* Requests */ = {
-			isa = PBXGroup;
-			children = (
-				2C44C21721592A20008679BE /* GRDownloadRequest.h */,
-				2C44C21821592A20008679BE /* GRRequest.m */,
-				2C44C21921592A20008679BE /* GRUploadRequest.h */,
-				2C44C21A21592A20008679BE /* GRCreateDirectoryRequest.h */,
-				2C44C21B21592A20008679BE /* GRListingRequest.h */,
-				2C44C21C21592A20008679BE /* GRDeleteRequest.h */,
-				2C44C21D21592A20008679BE /* GRRequestProtocol.h */,
-				2C44C21E21592A20008679BE /* GRDownloadRequest.m */,
-				2C44C21F21592A20008679BE /* GRRequest.h */,
-				2C44C22021592A20008679BE /* GRDeleteRequest.m */,
-				2C44C22121592A20008679BE /* GRListingRequest.m */,
-				2C44C22221592A20008679BE /* GRCreateDirectoryRequest.m */,
-				2C44C22321592A20008679BE /* GRUploadRequest.m */,
-			);
-			path = Requests;
+			path = Controller;
 			sourceTree = "<group>";
 		};
 		2CE18C4C214A7EE800AA468A = {
@@ -188,8 +134,8 @@
 		2CE18C73214A863700AA468A /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				2C44C1B521592998008679BE /* FTP */,
 				2CE18C77214A874900AA468A /* Main */,
+				2C6242F82159302A005216D5 /* More */,
 			);
 			path = Classes;
 			sourceTree = SOURCE_ROOT;
@@ -328,6 +274,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE18C65214A7EE800AA468A /* LaunchScreen.storyboard in Resources */,
+				2C62430521593104005216D5 /* VENDataUpdateViewController.xib in Resources */,
 				2CE18C62214A7EE800AA468A /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -378,21 +325,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C44C22A21592A20008679BE /* GRRequest.m in Sources */,
 				2CE18C68214A7EE900AA468A /* main.m in Sources */,
-				2C44C22F21592A20008679BE /* GRUploadRequest.m in Sources */,
 				2CF9539A214FE15F0039EFD8 /* VENNavigationBar.m in Sources */,
-				2C44C22C21592A20008679BE /* GRDeleteRequest.m in Sources */,
 				2C2484E4215104B500E20B06 /* VENPopView.m in Sources */,
 				2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */,
-				2C44C22921592A20008679BE /* GRError.m in Sources */,
 				2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */,
-				2C44C22D21592A20008679BE /* GRListingRequest.m in Sources */,
-				2C44C22621592A20008679BE /* GRRequestsManager.m in Sources */,
-				2C44C22721592A20008679BE /* GRQueue.m in Sources */,
-				2C44C22E21592A20008679BE /* GRCreateDirectoryRequest.m in Sources */,
-				2C44C22821592A20008679BE /* GRStreamInfo.m in Sources */,
-				2C44C22B21592A20008679BE /* GRDownloadRequest.m in Sources */,
+				2C62430421593104005216D5 /* VENDataUpdateViewController.m in Sources */,
 				2CE18C85214A8A8800AA468A /* VENTabBarView.m in Sources */,
 				2CE18C81214A8A5000AA468A /* VENMainViewController.m in Sources */,
 			);
