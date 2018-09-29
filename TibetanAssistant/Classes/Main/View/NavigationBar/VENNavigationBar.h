@@ -8,8 +8,15 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void (^finishBlock3)(NSString *);
+typedef void (^finishBlock2)(NSArray *);
 typedef void (^ReturnValueBlock) (NSString *strValue, NSInteger buttonTag, NSString *buttonTitle);
+
 @interface VENNavigationBar : UIView
+
 @property(nonatomic, copy) ReturnValueBlock returnValueBlock;
+@property (nonatomic, copy) finishBlock2 blk;
+@property (nonatomic, copy) finishBlock3 blk3;
 
 @end
+

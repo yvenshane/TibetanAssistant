@@ -9,6 +9,16 @@
 #import <UIKit/UIKit.h>
 
 @interface VENMainTableViewCell : UITableViewCell
-@property (nonatomic, assign) CGFloat cellMaxHeight;
+@property (nonatomic, strong) UILabel *titleLabel;
+
+@property (nonatomic, strong) UILabel *chineseContentLabel;
+@property (nonatomic, strong) UIButton *collectionButton;
+
+@property (nonatomic, strong) UILabel *tibetanContentLabel;
+@property (nonatomic, strong) UIButton *voiceButton;
+
+@property (nonatomic, strong) UILabel *homophonicContentLabel;
+
+@property (nonatomic, copy) NSDictionary *dataSource;
 
 @end

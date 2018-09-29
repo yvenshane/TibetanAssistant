@@ -107,15 +107,15 @@
         self.viewsMuArr[i].frame = CGRectMake(column * viewWidth, row * 44, viewWidth, 44);
     }
     
-    CGFloat x = viewWidth / 2  - 60 / 2;
+    CGFloat x = viewWidth / 2  - 70 / 2;
     CGFloat y = 44 / 2 - 25 / 2;
     
     for (NSInteger i = 0; i < self.buttonsMuArr.count; i++) {
-        self.buttonsMuArr[i].frame = CGRectMake(x, y, 60, 25);
+        self.buttonsMuArr[i].frame = CGRectMake(x, y, 70, 25);
     }
 
     self.lineView.frame = CGRectMake(0, ceil(self.dataMuArr.count / 4.0) * 44, kMainScreenWidth, 1);
-    self.titleButton.frame = CGRectMake(25, ceil(self.dataMuArr.count / 4.0) * 44, kMainScreenWidth - 50, 44);
+    self.titleButton.frame = CGRectMake(10, ceil(self.dataMuArr.count / 4.0) * 44, kMainScreenWidth - 20, 44);
     self.lineView2.frame = CGRectMake(0, ceil(self.dataMuArr.count / 4.0) * 44 + 44, kMainScreenWidth, 1);
 }
 

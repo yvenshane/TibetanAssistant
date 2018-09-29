@@ -46,6 +46,7 @@
         [searchButton setImage:[UIImage imageNamed:@"nav_search"] forState:UIControlStateNormal];
         searchBarTextField.rightView = searchButton;
         searchBarTextField.rightViewMode = UITextFieldViewModeAlways;
+        [searchButton addTarget:self action:@selector(searchButtonClick) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:searchBarTextField];
         
@@ -117,6 +118,39 @@
     }
     
     
+}
+
+- (void)searchButtonClick {
+    
+    if (![_searchBarTextField.text isEqualToString:@""] && _searchBarTextField.text.length > 0) {
+        [self endEditing:YES];
+        
+        for (UIButton *button in _buttonsMuArr) {
+            button.selected = NO;
+        }
+        
+        self.blk3(@"hidden");
+        
+        NSString *querySQL;
+        if ([_searchBarTextField.text rangeOfString:@" "].location != NSNotFound) {
+            //        NSLog(@"%@", _searchBarTextField.text);
+            
+            NSMutableArray *tempMuArr = [NSMutableArray array];
+            [tempMuArr addObjectsFromArray:[_searchBarTextField.text componentsSeparatedByString:@" "]];
+            NSMutableArray *tempMuArr2 = [NSMutableArray array];
+            for (NSString *tempStr in tempMuArr) {
+                [tempMuArr2 addObject:[NSString stringWithFormat:@"'%%%@%%'", tempStr]];
+            }
+            NSString *tempStr2 = [tempMuArr2 componentsJoinedByString:@" and name like "];
+            querySQL = [NSString stringWithFormat:@"select * from tablewords where name like %@;", tempStr2];
+            
+            NSLog(@"%@", querySQL);
+        } else {
+            querySQL = [NSString stringWithFormat:@"select * from tablewords where name like '%%%@%%';", _searchBarTextField.text];
+        }
+        
+        self.blk([[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL]);
+    }
 }
 
 - (NSMutableArray *)buttonsMuArr {

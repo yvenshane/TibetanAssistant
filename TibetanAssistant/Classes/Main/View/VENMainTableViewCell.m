@@ -10,19 +10,11 @@
 
 @interface VENMainTableViewCell ()
 @property (nonatomic, strong) UIView *titleView;
-@property (nonatomic, strong) UILabel *titleLabel;
 @property (nonatomic, strong) UIView *detailBackgroundView;
 
 @property (nonatomic, strong) UILabel *chineseTitleLabel;
-@property (nonatomic, strong) UILabel *chineseContentLabel;
-@property (nonatomic, strong) UIButton *collectionButton;
-
 @property (nonatomic, strong) UILabel *tibetanTitleLabel;
-@property (nonatomic, strong) UILabel *tibetanContentLabel;
-@property (nonatomic, strong) UIButton *voiceButton;
-
 @property (nonatomic, strong) UILabel *homophonicTitleLabel;
-@property (nonatomic, strong) UILabel *homophonicContentLabel;
 
 @end
 
@@ -137,6 +129,15 @@
     return self;
 }
 
+- (void)setDataSource:(NSDictionary *)dataSource {
+    _dataSource = dataSource;
+    
+    self.titleLabel.text = dataSource[@"name"];
+    self.chineseContentLabel.text = dataSource[@"name"];
+    self.tibetanContentLabel.text = dataSource[@"tibetan"];
+    self.homophonicContentLabel.text = dataSource[@"homophonic"];
+}
+
 - (void)layoutSubviews {
     [super layoutSubviews];
     
@@ -175,8 +176,6 @@
     
     // 背景
     self.detailBackgroundView.frame = CGRectMake(10, height + 15 + 15, kMainScreenWidth - 20, detailBackgroundViewMaxHeight);
-    
-    self.cellMaxHeight = height + 15 + 15 + detailBackgroundViewMaxHeight + 25;
 }
 
 - (CGFloat)label:(UILabel *)label setHeightToWidth:(CGFloat)width {
