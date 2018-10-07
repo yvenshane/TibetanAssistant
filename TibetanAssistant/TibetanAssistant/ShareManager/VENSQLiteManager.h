@@ -12,8 +12,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VENSQLiteManager : NSObject
 + (instancetype)sharedSQLiteManager;
-- (void)openDB;
+- (BOOL)openDB;
 - (NSMutableArray *)queryDBWithSQL:(NSString *)SQL;
+- (BOOL)execSQL:(NSString *)SQL;
 
 @end
 

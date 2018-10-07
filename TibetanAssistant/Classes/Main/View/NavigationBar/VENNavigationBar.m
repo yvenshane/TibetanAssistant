@@ -77,8 +77,16 @@
         self.searchBarTextField = searchBarTextField;
         self.toolsView = toolsView;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(hiddenNavButton) name:@"hiddenNavButton" object:nil];
+        
     }
     return self;
+}
+
+- (void)hiddenNavButton {
+    for (UIButton *button in _buttonsMuArr) {
+        button.selected = NO;
+    }
 }
 
 - (void)layoutSubviews {
@@ -97,10 +105,6 @@
     
     NSLog(@"第%ld个button", (long)button.tag);
     
-//    NSNotification *notification =[NSNotification notificationWithName:@"tongzhi" object:niluserInfo:dict];
-//    [[NSNotificationCenter defaultCenter] postNotification:notification];
-
-    
     for (UIButton *btn in _buttonsMuArr) {
         button.selected = YES;
         btn.selected = btn.tag == button.tag ? YES : NO;
@@ -111,9 +115,6 @@
             if (weakself.returnValueBlock) {
                 weakself.returnValueBlock(@"show", button.tag, button.titleLabel.text);
             }
-//            else {
-//                weakself.returnValueBlock(@"hidden");
-//            }
         }
     }
     
@@ -149,7 +150,7 @@
             querySQL = [NSString stringWithFormat:@"select * from tablewords where name like '%%%@%%';", _searchBarTextField.text];
         }
         
-        self.blk([[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL]);
+        self.blk([[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL], _searchBarTextField.text);
     }
 }
 
@@ -165,6 +166,10 @@
         _buttonsTitleMuArr = [NSMutableArray arrayWithArray:@[@"日常用语", @"电力用语", @"常用词汇"]];
     }
     return _buttonsTitleMuArr;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 /*

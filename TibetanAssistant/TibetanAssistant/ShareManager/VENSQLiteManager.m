@@ -8,6 +8,7 @@
 
 #import "VENSQLiteManager.h"
 #import <sqlite3.h>
+#import "VENDataUpdateViewController.h"
 
 @implementation VENSQLiteManager {
     sqlite3 *db;
@@ -23,7 +24,7 @@
     return instance;
 }
 
-- (void)openDB {
+- (BOOL)openDB {
     
     NSString *SQLPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/db/tibetan.db"];
     
@@ -31,9 +32,10 @@
     
     if (result == SQLITE_OK) {
         NSLog(@"数据库打开成功");
-        
+        return YES;
     } else {
         NSLog(@"数据库打开失败");
+        return NO;
     }
 }
 
@@ -75,6 +77,10 @@
     sqlite3_finalize(ppStmt);
     
     return tempMuArr;
+}
+
+- (BOOL)execSQL:(NSString *)SQL {
+    return sqlite3_exec(db, SQL.UTF8String, nil, nil, nil) == SQLITE_OK;
 }
 
 @end

@@ -7,14 +7,20 @@
 //
 
 #import "VENMainTableViewCell.h"
+#import <AVFoundation/AVFoundation.h>
 
-@interface VENMainTableViewCell ()
+@interface VENMainTableViewCell () {
+    AVAudioPlayer *musicPlayer;
+}
+
 @property (nonatomic, strong) UIView *titleView;
 @property (nonatomic, strong) UIView *detailBackgroundView;
 
 @property (nonatomic, strong) UILabel *chineseTitleLabel;
 @property (nonatomic, strong) UILabel *tibetanTitleLabel;
 @property (nonatomic, strong) UILabel *homophonicTitleLabel;
+
+@property (nonatomic, copy) NSString *fullPath;
 
 @end
 
@@ -69,6 +75,7 @@
         [collectionButton setImage:[UIImage imageNamed:@"uncollection"] forState:UIControlStateNormal];
         [collectionButton setImage:[UIImage imageNamed:@"collection"] forState:UIControlStateSelected];
         [detailBackgroundView addSubview:collectionButton];
+        [collectionButton addTarget:self action:@selector(collectionButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
         // 藏
         UILabel *tibetanTitleLabel = [[UILabel alloc] init];
@@ -92,6 +99,7 @@
         UIButton *voiceButton = [[UIButton alloc] init];
         [voiceButton setImage:[UIImage imageNamed:@"voice"] forState:UIControlStateNormal];
         [detailBackgroundView addSubview:voiceButton];
+        [voiceButton addTarget:self action:@selector(voiceButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
         // 谐
         UILabel *homophonicTitleLabel = [[UILabel alloc] init];
@@ -129,13 +137,49 @@
     return self;
 }
 
-- (void)setDataSource:(NSDictionary *)dataSource {
+- (void)voiceButtonClick:(UIButton *)button {
+    
+    self.voiceButton.userInteractionEnabled = NO;
+    
+    AVPlayer *player = [AVPlayer playerWithURL:[NSURL fileURLWithPath:self.fullPath]];
+    AVPlayerLayer *playerLayer = [AVPlayerLayer playerLayerWithPlayer:player];
+
+    [self.contentView.layer addSublayer:playerLayer];
+    
+    [player play];
+    
+    // 监听播放结束
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(playbackFinished:) name:AVPlayerItemDidPlayToEndTimeNotification object:player.currentItem];
+}
+
+- (void)playbackFinished:(NSNotification *)noti {
+    self.voiceButton.userInteractionEnabled = YES;
+}
+
+- (void)collectionButtonClick:(UIButton *)button {
+    button.selected = !button.selected;
+    // 更改收藏状态
+    NSString *SQL = [NSString stringWithFormat:@"update 'tablewords' set collection='%d' where id='%@'", button.selected, _dataSource[@"id"]];
+    
+    if ([[VENSQLiteManager sharedSQLiteManager] execSQL:SQL]) {
+        NSLog(@"对应数据修改成功");
+    }
+    
+    _dataSource[@"collection"] = button.selected == YES ? @"1" : @"0";
+}
+
+- (void)setDataSource:(NSMutableDictionary *)dataSource {
     _dataSource = dataSource;
     
     self.titleLabel.text = dataSource[@"name"];
     self.chineseContentLabel.text = dataSource[@"name"];
     self.tibetanContentLabel.text = dataSource[@"tibetan"];
     self.homophonicContentLabel.text = dataSource[@"homophonic"];
+    self.collectionButton.selected = [dataSource[@"collection"] integerValue] == 1 ? YES : NO;
+    
+    NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/py/%@.mp3", dataSource[@"number"]]];
+    
+    self.fullPath = fullPath;
 }
 
 - (void)layoutSubviews {
@@ -181,6 +225,10 @@
 - (CGFloat)label:(UILabel *)label setHeightToWidth:(CGFloat)width {
     CGSize size = [label sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)];
     return size.height;
+}
+
+- (void)dealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 - (void)awakeFromNib {

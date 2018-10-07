@@ -14,18 +14,22 @@
 
 #ifdef  __OBJC__  // 屏蔽C文件的宏,防止以下OC内容被导入C语言文件!
 
+#import <AFNetworking.h>
+#import <MBProgressHUD.h>
 #import <YBPopupMenu.h>
-#import "VENNetworkTool.h"
 #import "VENSQLiteManager.h"
-#import <YYModel.h>
+#import "VENMBProgressHUDManager.h"
 
 #define kMainScreenFrameRect [UIScreen mainScreen].bounds
 #define kMainScreenWidth kMainScreenFrameRect.size.width
 #define kMainScreenHeight kMainScreenFrameRect.size.height
 
 #define isIPhoneX (kMainScreenWidth == 375.0f && kMainScreenHeight == 812.0f ? YES : NO)
+
+#define isIPhone5 ([UIScreen instancesRespondToSelector:@selector(currentMode)] ? CGSizeEqualToSize(CGSizeMake(640, 1136), [[UIScreen mainScreen] currentMode].size) : NO)
+
 #define statusNavHeight (isIPhoneX ? 88 : 64)
-#define tabBarHeight (isIPhoneX ? 83 : 49)
+#define tabBarHeight ([[UIApplication sharedApplication] statusBarFrame].size.height > 20 ? 83 : 49)
 
 #define UIColorMake(r, g, b) [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0]
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]

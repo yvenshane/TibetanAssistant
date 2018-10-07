@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 typedef void (^finishBlock3)(NSString *);
-typedef void (^finishBlock2)(NSArray *);
+typedef void (^finishBlock2)(NSArray *, NSString *);
 typedef void (^ReturnValueBlock) (NSString *strValue, NSInteger buttonTag, NSString *buttonTitle);
 
 @interface VENNavigationBar : UIView

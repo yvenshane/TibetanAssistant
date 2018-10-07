@@ -72,9 +72,15 @@
         btn.selected = btn.tag == button.tag ? YES : NO;
     }
     
-    
-    if (button.tag == 3) {
+    if (button.tag == 1) {
         
+        self.blk(@"sy");
+        
+    } else if (button.tag == 2) {
+        
+        self.blk(@"sc");
+        
+    } else {
         CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 3 / 2) , kMainScreenHeight - 51);
         
         [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:85 otherSettings:^(YBPopupMenu *popupMenu) {
@@ -95,6 +101,10 @@
 - (void)ybPopupMenuDidSelectedAtIndex:(NSInteger)index ybPopupMenu:(YBPopupMenu *)ybPopupMenu {
     if (index == 1) {
         self.blk(@"sjgx");
+    } else if (index == 0) {
+        self.blk(@"bz");
+    } else {
+        self.blk(@"gy");
     }
 }
 

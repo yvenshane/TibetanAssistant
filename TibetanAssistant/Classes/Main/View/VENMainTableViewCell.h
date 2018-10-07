@@ -19,6 +19,6 @@
 
 @property (nonatomic, strong) UILabel *homophonicContentLabel;
 
-@property (nonatomic, copy) NSDictionary *dataSource;
+@property (nonatomic, strong) NSMutableDictionary *dataSource;
 
 @end
