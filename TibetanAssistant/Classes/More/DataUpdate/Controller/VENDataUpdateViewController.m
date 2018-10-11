@@ -7,14 +7,15 @@
 //
 
 #import "VENDataUpdateViewController.h"
+#import "SSZipArchive.h"
 
-@interface VENDataUpdateViewController ()
+@interface VENDataUpdateViewController () <SSZipArchiveDelegate>
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView;
 @property (weak, nonatomic) IBOutlet UILabel *progressLabel;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusBarLayoutConstraint;
 
-@property (nonatomic, assign) NSInteger downloadCount;
 @property (nonatomic, copy) NSString *serverStr;
+@property (nonatomic, copy) NSString *logStr;
 
 @end
 
@@ -29,6 +30,12 @@
     self.downloadButton.layer.cornerRadius = 44.5 / 2;
     self.downloadButton.layer.masksToBounds = YES;
     
+    self.continueButton.layer.cornerRadius = 44.5 / 2;
+    self.continueButton.layer.masksToBounds = YES;
+    
+    self.suspendButton.layer.cornerRadius = 44.5 / 2;
+    self.suspendButton.layer.masksToBounds = YES;
+    
     [self downloadVersionFile];
 }
 
@@ -36,11 +43,23 @@
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (IBAction)downloadButtonClick:(id)sender {
-    [self downloadDataBase];
-    
-    self.downloadButton.hidden = YES;
+- (IBAction)downloadButtonClick:(UIButton *)btn {
+    if (btn.selected == YES) {
+        [self dismissViewControllerAnimated:YES completion:nil];
+    } else {
+        [self downloadDataBase];
+        self.downloadButton.hidden = YES;
+    }
 }
+
+- (IBAction)suspendButtonClick:(id)sender {
+    
+}
+
+- (IBAction)continueButtonClick:(id)sender {
+    
+}
+
 
 - (void)downloadVersionFile {
     NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/Ver.txt"];
@@ -64,22 +83,33 @@
         
         self.serverStr = serverStr;
         
-        NSLog(@"%@", serverStr);
-        NSLog(@"%@", localStr);
-        
-        
-//        [[VENMBProgressHUDManager sharedMBProgressHUDManager] showText:@"正在比对版本信息"];
-        
+        NSLog(@"serverStr - %@", serverStr);
+        NSLog(@"localStr - %@", localStr);
+
         if ([localStr isEqualToString:serverStr]) {
-            
+            self.topLabel.text = @"当前已是最近版本";
+            self.imageButton.selected = YES;
+            [self.downloadButton setTitle:@"我知道了" forState:UIControlStateNormal];
+            self.downloadButton.backgroundColor = COLOR_THEME;
+            self.downloadButton.hidden = NO;
+            self.downloadButton.selected = YES;
         } else {
-            
+            if (localStr != nil) {
+                self.downloadButton.hidden = YES;
+                [self downloadDataBase];
+            }
         }
+        
+        self.coverView.hidden = YES;
         
     }] resume];
 }
 
 - (void)downloadDataBase {
+    
+    _logTextView.hidden = NO;
+    _logStr = @"正在下载数据库";
+    _logTextView.text = _logStr;
     
     self.progressView.hidden = NO;
     self.progressLabel.hidden = NO;
@@ -112,11 +142,9 @@
     } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
         
         NSLog(@"\n 完成：\n %@ \n \n%@", response, filePath);
-        [[VENMBProgressHUDManager sharedMBProgressHUDManager] showText:@"数据库下载完成"];
-        
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [[VENMBProgressHUDManager sharedMBProgressHUDManager] showText:@"准备下载音频文件"];
-        });
+
+        self.logStr = [self.logStr stringByAppendingString:@"\n数据库下载完成"];
+        self.logTextView.text = _logStr;
         
         self.progressView.hidden = YES;
         self.progressLabel.hidden = YES;
@@ -124,101 +152,92 @@
         [self downloadVoice];
         
     }] resume];
-    
-    
-    
-//    // 写入版本号
-//    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-//    [defaults setObject:_serverStr forKey:@"version"];
-//    [defaults synchronize];
-    
-    
 }
 
 - (void)downloadVoice {
-    // 打开数据库
-    [[VENSQLiteManager sharedSQLiteManager] openDB];
-    // 查询语句
-    NSString *querySQL2 = @"SELECT number FROM tablewords;";
     
-    NSArray *tempArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL2];
+    self.logStr = [self.logStr stringByAppendingString:@"\n正在下载音频文件"];
+    self.logTextView.text = _logStr;
     
-    self.downloadCount = 0;
+    self.progressView.hidden = NO;
+    self.progressLabel.hidden = NO;
+
+    NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
+    AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
     
-    // 拿到所有 MP3 文件名
-    for (NSDictionary *dict in tempArr) {
+    NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/vp.zip"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress) {
         
-        NSURLSessionConfiguration *configuration = [NSURLSessionConfiguration defaultSessionConfiguration];
-        AFURLSessionManager *manager = [[AFURLSessionManager alloc] initWithSessionConfiguration:configuration];
-        NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://47.92.225.21/py/%@.mp3", dict[@"number"]]];
-        NSURLRequest *request = [NSURLRequest requestWithURL:url];
-        [self createDirWithPath:@"py"];
+        __weak typeof(self) weakSelf = self;
         
-        NSURLSessionDownloadTask *downloadTask = [manager downloadTaskWithRequest:request progress:^(NSProgress *downloadProgress) {
-            
-            
-        } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
-            
-            NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/py/%@", response.suggestedFilename]];
-            
-            //        NSLog(@"\n targetPath:%@ \n \n", targetPath);
-            //        NSLog(@"\n fullPath:%@----%@ \n \n", fullPath,[NSURL fileURLWithPath:fullPath]);
-            
-            return [NSURL fileURLWithPath:fullPath];
-            
-        } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
-            
-            //                NSLog(@"%@", error.userInfo);
-            
-            if (error) {
-                [self deleteFileWithPath:[[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/py/%@", response.suggestedFilename]]];
-            } else {
-                self.downloadCount++;
-                //                    NSLog(@"%ld", (long)self->_downloadCount);
-                
-                __weak typeof(self) weakSelf = self;
-                
-                // 获取主线程，不然无法正确显示进度。
-                NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
-                [mainQueue addOperationWithBlock:^{
-                    // 下载进度
-                    
-                    static dispatch_once_t onceToken;
-                    dispatch_once(&onceToken, ^{
-                        weakSelf.progressView.hidden = NO;
-                        weakSelf.progressLabel.hidden = NO;
-                    });
-                    
-                    weakSelf.progressView.progress = 1.0 *  self.downloadCount / tempArr.count;
-                    weakSelf.progressLabel.text = [NSString stringWithFormat:@"当前下载进度:%.2f%%",100.0 *  self.downloadCount / tempArr.count];
-                }];
-                
-            }
+        // 获取主线程，不然无法正确显示进度。
+        NSOperationQueue* mainQueue = [NSOperationQueue mainQueue];
+        [mainQueue addOperationWithBlock:^{
+            // 下载进度
+            weakSelf.progressView.progress = 1.0 * downloadProgress.completedUnitCount / downloadProgress.totalUnitCount;
+            weakSelf.progressLabel.text = [NSString stringWithFormat:@"当前下载进度:%.2f%%",100.0 * downloadProgress.completedUnitCount / downloadProgress.totalUnitCount];
         }];
         
-        // 4. 开启下载任务
-        [downloadTask resume];
+    } destination:^NSURL *(NSURL *targetPath, NSURLResponse *response) {
+        
+        NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/%@", response.suggestedFilename]];
+        
+        return [NSURL fileURLWithPath:fullPath];
+        
+    } completionHandler:^(NSURLResponse *response, NSURL *filePath, NSError *error) {
+        
+        NSLog(@"\n 完成：\n %@ \n \n%@", response, filePath);
+        
+        self.logStr = [self.logStr stringByAppendingString:@"\n音频文件下载完成"];
+        self.logTextView.text = self.logStr;
+        
+        NSString *zipFilePath = [filePath path];
+        
+        NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/py"];
+        [self createDirWithPath:@"py"];
+        [self releaseZipFilesWithUnzipFileAtPath:zipFilePath Destination:fullPath];
+    }];
+    
+    [downloadTask resume];
+}
+
+// 解压
+- (void)releaseZipFilesWithUnzipFileAtPath:(NSString *)zipPath Destination:(NSString *)unzipPath{
+    NSError *error;
+    if ([SSZipArchive unzipFileAtPath:zipPath toDestination:unzipPath overwrite:YES password:nil error:&error delegate:self]) {
+        NSLog(@"success");
+        NSLog(@"unzipPath = %@",unzipPath);
+    } else {
+        NSLog(@"%@",error);
     }
 }
 
-- (void)deleteFileWithPath:(NSString *)path {
+- (void)zipArchiveWillUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo {
+    self.logStr = [self.logStr stringByAppendingString:@"\n正在解压音频文件"];
+    self.logTextView.text = self.logStr;
+}
+
+- (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath {
+    self.logStr = [self.logStr stringByAppendingString:@"\n音频文件解压完成"];
+    self.logTextView.text = self.logStr;
     
-    NSFileManager *fileManager = [NSFileManager defaultManager];
+    self.logTextView.hidden = YES;
+    self.progressView.hidden = YES;
+    self.progressLabel.hidden = YES;
     
-    BOOL blHave = [[NSFileManager defaultManager] fileExistsAtPath:path];
+    self.topLabel.text = @"当前已是最近版本";
+    self.imageButton.selected = YES;
+    [self.downloadButton setTitle:@"我知道了" forState:UIControlStateNormal];
+    self.downloadButton.backgroundColor = COLOR_THEME;
+    self.downloadButton.selected = YES;
+//    self.downloadButton.hidden = NO;
     
-    if (!blHave) {
-        NSLog(@"no  have");
-        return ;
-    } else {
-        NSLog(@" have");
-        BOOL blDele= [fileManager removeItemAtPath:path error:nil];
-        if (blDele) {
-            NSLog(@"dele success");
-        } else {
-            NSLog(@"dele fail");
-        }
-    }
+    // 写入版本号
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [defaults setObject:self.serverStr forKey:@"version"];
+    [defaults synchronize];
 }
 
 - (void)createDirWithPath:(NSString *)path {

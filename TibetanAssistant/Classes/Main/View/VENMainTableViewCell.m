@@ -177,7 +177,7 @@
     self.homophonicContentLabel.text = dataSource[@"homophonic"];
     self.collectionButton.selected = [dataSource[@"collection"] integerValue] == 1 ? YES : NO;
     
-    NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/py/%@.mp3", dataSource[@"number"]]];
+    NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/py/VP/%@.mp3", dataSource[@"number"]]];
     
     self.fullPath = fullPath;
 }

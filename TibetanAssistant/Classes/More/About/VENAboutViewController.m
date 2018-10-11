@@ -22,6 +22,12 @@
     self.statusBarLayoutConstraint.constant = [[UIApplication sharedApplication] statusBarFrame].size.height;
     
     self.about2LayoutConstraint.constant = isIPhone5 ? 76 : 93;
+    
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+    
+    self.versionLabel.text = [NSString stringWithFormat:@"V %@.%@", app_Version, localStr];
 }
 
 - (IBAction)backButtonClick:(id)sender {

@@ -17,6 +17,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UIButton *downloadButton;
 
+@property (weak, nonatomic) IBOutlet UIView *coverView; // 遮罩 确认版本号后隐藏
+
+@property (weak, nonatomic) IBOutlet UIView *downloadView;
+@property (weak, nonatomic) IBOutlet UIButton *suspendButton;
+@property (weak, nonatomic) IBOutlet UIButton *continueButton;
+@property (weak, nonatomic) IBOutlet UITextView *logTextView;
+
 @end
 
 NS_ASSUME_NONNULL_END

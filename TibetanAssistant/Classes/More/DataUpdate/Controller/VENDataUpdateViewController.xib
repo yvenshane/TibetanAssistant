@@ -11,13 +11,18 @@
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VENDataUpdateViewController">
             <connections>
+                <outlet property="continueButton" destination="2i4-9O-EX1" id="LEJ-F1-OAs"/>
+                <outlet property="coverView" destination="UQH-Bd-IPF" id="O5h-TZ-uPZ"/>
                 <outlet property="downloadButton" destination="b15-Gl-tJ5" id="Qk4-GL-FUj"/>
+                <outlet property="downloadView" destination="uId-p8-fXo" id="YTA-CI-l0H"/>
                 <outlet property="imageButton" destination="aJl-Kg-gbh" id="GHE-7j-vHE"/>
+                <outlet property="logTextView" destination="LH0-Kj-KCB" id="JrT-aP-Tzz"/>
                 <outlet property="navigationLeftButton" destination="rKP-Ln-quS" id="K7f-wi-Zqm"/>
                 <outlet property="navigationTitle" destination="cn6-Dp-3ac" id="M15-ZO-zUj"/>
                 <outlet property="progressLabel" destination="qPi-8A-khq" id="u7q-AQ-ScF"/>
                 <outlet property="progressView" destination="ewi-83-S07" id="uXn-ov-rpZ"/>
                 <outlet property="statusBarLayoutConstraint" destination="wcw-QK-nr2" id="W3c-Hb-uxs"/>
+                <outlet property="suspendButton" destination="AzJ-Ye-dHe" id="8eL-a7-mp3"/>
                 <outlet property="topLabel" destination="YE6-eB-bxj" id="W4e-QK-b54"/>
                 <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
             </connections>
@@ -85,14 +90,13 @@
                     <state key="normal" image="download"/>
                     <state key="selected" image="downloaded"/>
                 </button>
-                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b15-Gl-tJ5">
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b15-Gl-tJ5">
                     <rect key="frame" x="105.5" y="441.5" width="164.5" height="44.5"/>
                     <color key="backgroundColor" red="0.96862745098039216" green="0.67450980392156867" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="44.5" id="QLG-Nk-Bnz"/>
                         <constraint firstAttribute="width" constant="164.5" id="laC-sx-sSH"/>
                     </constraints>
-                    <fontDescription key="fontDescription" type="system" pointSize="18"/>
                     <state key="normal" title="点击下载">
                         <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     </state>
@@ -112,6 +116,63 @@
                     <nil key="textColor"/>
                     <nil key="highlightedColor"/>
                 </label>
+                <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UQH-Bd-IPF">
+                    <rect key="frame" x="0.0" y="643" width="375" height="24"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                </view>
+                <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uId-p8-fXo">
+                    <rect key="frame" x="62.5" y="441" width="250" height="45"/>
+                    <subviews>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AzJ-Ye-dHe">
+                            <rect key="frame" x="0.0" y="0.5" width="120" height="44.5"/>
+                            <color key="backgroundColor" red="0.96862745100000003" green="0.67450980390000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44.5" id="Ojf-Zs-SZ3"/>
+                                <constraint firstAttribute="width" constant="120" id="ewK-1J-QvF"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="暂停下载">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="suspendButtonClick:" destination="-1" eventType="touchUpInside" id="MLd-lr-G5U"/>
+                            </connections>
+                        </button>
+                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2i4-9O-EX1">
+                            <rect key="frame" x="130" y="0.5" width="120" height="44.5"/>
+                            <color key="backgroundColor" red="0.96862745100000003" green="0.67450980390000004" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            <constraints>
+                                <constraint firstAttribute="height" constant="44.5" id="DHV-Fa-DFh"/>
+                                <constraint firstAttribute="width" constant="120" id="JEd-J4-LBr"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                            <state key="normal" title="继续下载">
+                                <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            </state>
+                            <connections>
+                                <action selector="continueButtonClick:" destination="-1" eventType="touchUpInside" id="Qvo-TV-eSh"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="2i4-9O-EX1" firstAttribute="centerY" secondItem="uId-p8-fXo" secondAttribute="centerY" id="Duo-8e-Vjw"/>
+                        <constraint firstAttribute="width" constant="250" id="KPi-Dq-xdX"/>
+                        <constraint firstAttribute="height" constant="45" id="LJd-tD-WG9"/>
+                        <constraint firstItem="AzJ-Ye-dHe" firstAttribute="centerY" secondItem="uId-p8-fXo" secondAttribute="centerY" id="ZYZ-fp-dSQ"/>
+                        <constraint firstAttribute="trailing" secondItem="2i4-9O-EX1" secondAttribute="trailing" id="m0w-YK-Gdb"/>
+                        <constraint firstItem="AzJ-Ye-dHe" firstAttribute="leading" secondItem="uId-p8-fXo" secondAttribute="leading" id="zlS-3c-tEQ"/>
+                    </constraints>
+                </view>
+                <textView hidden="YES" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" editable="NO" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="LH0-Kj-KCB">
+                    <rect key="frame" x="67.5" y="398" width="240" height="96"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="240" id="Cl5-07-5bR"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
@@ -121,9 +182,18 @@
                 <constraint firstItem="aJl-Kg-gbh" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="4rz-nc-ymv"/>
                 <constraint firstItem="5fS-mm-yCH" firstAttribute="top" secondItem="4In-WF-niQ" secondAttribute="bottom" id="83C-at-Csv"/>
                 <constraint firstItem="b15-Gl-tJ5" firstAttribute="top" secondItem="aJl-Kg-gbh" secondAttribute="bottom" constant="51.5" id="BBQ-l0-gnr"/>
+                <constraint firstItem="UQH-Bd-IPF" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="BHe-2t-NeQ"/>
+                <constraint firstItem="uId-p8-fXo" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="Cdu-MS-jig"/>
+                <constraint firstItem="UQH-Bd-IPF" firstAttribute="top" secondItem="5fS-mm-yCH" secondAttribute="bottom" id="Ctj-DA-87Q"/>
                 <constraint firstItem="b15-Gl-tJ5" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="GOR-4E-ofp"/>
+                <constraint firstAttribute="trailing" secondItem="UQH-Bd-IPF" secondAttribute="trailing" id="HwF-1J-9Ca"/>
+                <constraint firstItem="LH0-Kj-KCB" firstAttribute="top" secondItem="aJl-Kg-gbh" secondAttribute="bottom" constant="8" id="Iei-Fr-wtQ"/>
+                <constraint firstAttribute="bottom" secondItem="UQH-Bd-IPF" secondAttribute="bottom" id="Kh2-Pv-N6v"/>
+                <constraint firstItem="LH0-Kj-KCB" firstAttribute="centerX" secondItem="i5M-Pr-FkT" secondAttribute="centerX" id="LVG-g9-Fvw"/>
                 <constraint firstItem="4In-WF-niQ" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="Otc-I3-ubm"/>
                 <constraint firstItem="qPi-8A-khq" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="Rbq-sE-dRI"/>
+                <constraint firstItem="ewi-83-S07" firstAttribute="top" secondItem="LH0-Kj-KCB" secondAttribute="bottom" constant="8" id="WTI-BX-bf2"/>
+                <constraint firstItem="uId-p8-fXo" firstAttribute="top" secondItem="aJl-Kg-gbh" secondAttribute="bottom" constant="51" id="XFV-lW-kyF"/>
                 <constraint firstItem="ewi-83-S07" firstAttribute="top" secondItem="b15-Gl-tJ5" secondAttribute="bottom" constant="16" id="Yb8-Od-4m3"/>
                 <constraint firstItem="5fS-mm-yCH" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="a2u-jb-yUL"/>
                 <constraint firstItem="ewi-83-S07" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" constant="16" id="c55-pB-TyW"/>
@@ -138,6 +208,7 @@
                 <constraint firstItem="8ab-fJ-GgC" firstAttribute="leading" secondItem="i5M-Pr-FkT" secondAttribute="leading" id="od2-xV-qTP"/>
                 <constraint firstAttribute="trailing" secondItem="4In-WF-niQ" secondAttribute="trailing" id="vM7-Fa-yP6"/>
             </constraints>
+            <point key="canvasLocation" x="53.600000000000001" y="48.125937031484263"/>
         </view>
     </objects>
     <resources>

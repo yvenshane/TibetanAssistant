@@ -12,6 +12,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface VENAboutViewController : UIViewController
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *about2LayoutConstraint;
+@property (weak, nonatomic) IBOutlet UILabel *versionLabel;
 
 @end
 

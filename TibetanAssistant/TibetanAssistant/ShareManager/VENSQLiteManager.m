@@ -50,7 +50,7 @@
     NSMutableArray *tempMuArr = [NSMutableArray array];
     
     if (result == SQLITE_OK) {
-        NSLog(@"查询数据成功");
+        NSLog(@"%@成功", SQL);
         // 获取字段的个数
         int count = sqlite3_column_count(ppStmt);
         while (sqlite3_step(ppStmt) == SQLITE_ROW) {
