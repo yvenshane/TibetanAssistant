@@ -232,7 +232,7 @@
     [self.downloadButton setTitle:@"我知道了" forState:UIControlStateNormal];
     self.downloadButton.backgroundColor = COLOR_THEME;
     self.downloadButton.selected = YES;
-//    self.downloadButton.hidden = NO;
+    self.downloadButton.hidden = NO;
     
     // 写入版本号
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

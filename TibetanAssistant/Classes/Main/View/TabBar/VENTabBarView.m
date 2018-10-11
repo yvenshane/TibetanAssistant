@@ -83,7 +83,7 @@
     } else {
         CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 3 / 2) , kMainScreenHeight - 51);
         
-        [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:85 otherSettings:^(YBPopupMenu *popupMenu) {
+        [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:90 otherSettings:^(YBPopupMenu *popupMenu) {
             popupMenu.dismissOnSelected = YES;
             popupMenu.isShowShadow = YES;
             popupMenu.delegate = self;

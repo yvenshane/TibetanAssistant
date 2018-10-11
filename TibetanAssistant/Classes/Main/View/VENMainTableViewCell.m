@@ -193,14 +193,14 @@
     CGFloat detailBackgroundViewMaxHeight;
     // 汉
     self.chineseTitleLabel.frame = CGRectMake(10, 15, 25, 25);
-    CGFloat width = kMainScreenWidth - 10 - 10 - 25 - 10 - 10 - 10 - 10 - 18 - 10;
+    CGFloat width = kMainScreenWidth - 10 - 10 - 25 - 10 - 10 - 10 - 10 - 36 - 10;
     CGFloat height1 = [self label:self.chineseContentLabel setHeightToWidth:width];
     self.chineseContentLabel.frame = CGRectMake(10 + 25 + 10, 15 + 25 / 2 - 15 / 2, width + 10, height1);
     
     detailBackgroundViewMaxHeight = height1 < 25 ? self.chineseContentLabel.frame.origin.y + self.chineseContentLabel.frame.size.height + 10 : self.chineseContentLabel.frame.origin.y + self.chineseContentLabel.frame.size.height;
     
     // 收藏
-    self.collectionButton.frame = CGRectMake(width + 10 + 10 + 25 + 10, 15 + 25 / 2 - 18 / 2, 18, 18);
+    self.collectionButton.frame = CGRectMake(width + 10 + 10 + 25 + 10, 15 + 25 / 2 - 36 / 2, 36, 36);
     
     // 藏
     self.tibetanTitleLabel.frame = CGRectMake(10, detailBackgroundViewMaxHeight, 25, 25);
@@ -210,7 +210,9 @@
     
     // 播放
     CGFloat tempHeight = height1 > 25 ? height1 : height1 + 10;
-    self.voiceButton.frame = CGRectMake(width + 10 + 10 + 25 + 10, 15 + 25 / 2 - 15 / 2 + 25 / 2 - 18 / 2 + tempHeight, 18, 18);
+    self.voiceButton.frame = CGRectMake(width + 10 + 10 + 25 + 10, 15 + 25 / 2 - 15 / 2 + 25 / 2 - 36 / 2 + tempHeight + 5, 36, 36);
+    
+    //   ↑ Y + 5 
     
     // 谐
     self.homophonicTitleLabel.frame = CGRectMake(10, detailBackgroundViewMaxHeight, 25, 25);
