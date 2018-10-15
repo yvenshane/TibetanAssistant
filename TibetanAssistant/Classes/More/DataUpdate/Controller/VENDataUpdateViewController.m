@@ -44,20 +44,17 @@
 }
 
 - (IBAction)downloadButtonClick:(UIButton *)btn {
-    if (btn.selected == YES) {
-        [self dismissViewControllerAnimated:YES completion:nil];
-    } else {
-        [self downloadDataBase];
-        self.downloadButton.hidden = YES;
-    }
+    [self downloadDataBase];
+    self.downloadButton.hidden = YES;
 }
 
 - (IBAction)suspendButtonClick:(id)sender {
-    
+    [self dismissViewControllerAnimated:YES completion:nil];
 }
 
 - (IBAction)continueButtonClick:(id)sender {
-    
+    [self downloadDataBase];
+    self.downloadView.hidden = YES;
 }
 
 
@@ -89,10 +86,10 @@
         if ([localStr isEqualToString:serverStr]) {
             self.topLabel.text = @"当前已是最近版本";
             self.imageButton.selected = YES;
-            [self.downloadButton setTitle:@"我知道了" forState:UIControlStateNormal];
-            self.downloadButton.backgroundColor = COLOR_THEME;
-            self.downloadButton.hidden = NO;
-            self.downloadButton.selected = YES;
+            
+            self.downloadView.hidden = NO;
+            self.suspendButton.backgroundColor = COLOR_THEME;
+            self.continueButton.backgroundColor = COLOR_THEME;
         } else {
             if (localStr != nil) {
                 self.downloadButton.hidden = YES;
@@ -144,7 +141,7 @@
         NSLog(@"\n 完成：\n %@ \n \n%@", response, filePath);
 
         self.logStr = [self.logStr stringByAppendingString:@"\n数据库下载完成"];
-        self.logTextView.text = _logStr;
+        self.logTextView.text = self.logStr;
         
         self.progressView.hidden = YES;
         self.progressLabel.hidden = YES;
@@ -229,10 +226,10 @@
     
     self.topLabel.text = @"当前已是最近版本";
     self.imageButton.selected = YES;
-    [self.downloadButton setTitle:@"我知道了" forState:UIControlStateNormal];
-    self.downloadButton.backgroundColor = COLOR_THEME;
-    self.downloadButton.selected = YES;
-    self.downloadButton.hidden = NO;
+    
+    self.downloadView.hidden = NO;
+    self.suspendButton.backgroundColor = COLOR_THEME;
+    self.continueButton.backgroundColor = COLOR_THEME;
     
     // 写入版本号
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];

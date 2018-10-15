@@ -59,13 +59,13 @@
                     </constraints>
                 </view>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about_bottom" translatesAutoresizingMaskIntoConstraints="NO" id="W8H-Ny-W5a">
-                    <rect key="frame" x="0.0" y="404" width="375" height="85"/>
+                    <rect key="frame" x="0.0" y="374" width="375" height="85"/>
                 </imageView>
                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="about_top" translatesAutoresizingMaskIntoConstraints="NO" id="5gJ-21-hho">
-                    <rect key="frame" x="0.0" y="224" width="375" height="181"/>
+                    <rect key="frame" x="0.0" y="194" width="375" height="181"/>
                 </imageView>
                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4Wo-PY-ZEX">
-                    <rect key="frame" x="0.0" y="400" width="375" height="21"/>
+                    <rect key="frame" x="0.0" y="370" width="375" height="21"/>
                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <nil key="highlightedColor"/>
@@ -86,7 +86,7 @@
                 <constraint firstItem="W8H-Ny-W5a" firstAttribute="top" secondItem="5gJ-21-hho" secondAttribute="bottom" constant="-1" id="XS5-PB-5Le"/>
                 <constraint firstItem="8Rr-Bn-Ojx" firstAttribute="top" secondItem="jBc-Ii-acs" secondAttribute="bottom" id="lN8-yd-cRw"/>
                 <constraint firstAttribute="trailing" secondItem="4Wo-PY-ZEX" secondAttribute="trailing" id="rIm-kE-M4m"/>
-                <constraint firstItem="5gJ-21-hho" firstAttribute="top" secondItem="8Rr-Bn-Ojx" secondAttribute="bottom" constant="160" id="yEw-ca-GQ2"/>
+                <constraint firstItem="5gJ-21-hho" firstAttribute="top" secondItem="8Rr-Bn-Ojx" secondAttribute="bottom" constant="130" id="yEw-ca-GQ2"/>
                 <constraint firstItem="8Rr-Bn-Ojx" firstAttribute="trailing" secondItem="i5M-Pr-FkT" secondAttribute="trailing" id="yiA-f0-JWc"/>
                 <constraint firstItem="jBc-Ii-acs" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="zIf-Df-P2d"/>
             </constraints>

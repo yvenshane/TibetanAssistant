@@ -36,12 +36,13 @@
         titleView.backgroundColor = UIColorMake(247, 172, 0);
         [self addSubview:titleView];
         
-        UILabel *titleLabel = [[UILabel alloc] init];
-        titleLabel.text = @"标题标题标题标题标题标";
-        titleLabel.textColor = UIColorMake(0, 111, 106);
-        titleLabel.font = [UIFont systemFontOfSize:16.0f];
-        titleLabel.numberOfLines = 0;
-        [self addSubview:titleLabel];
+        UIButton *titleButton = [[UIButton alloc] init];
+        [titleButton setTitle:@"标题标题标题标题标题标" forState:UIControlStateNormal];
+        [titleButton setTitleColor:UIColorMake(0, 111, 106) forState:UIControlStateNormal];
+        titleButton.titleLabel.font = [UIFont systemFontOfSize:16.0f];
+        titleButton.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
+        titleButton.titleEdgeInsets = UIEdgeInsetsMake(0, 10, 0, 0);
+        [self addSubview:titleButton];
         
         // 内容
         UIView *detailBackgroundView = [[UIView alloc] init];
@@ -120,7 +121,7 @@
         [detailBackgroundView addSubview:homophonicContentLabel];
         
         self.titleView = titleView;
-        self.titleLabel = titleLabel;
+        self.titleButton = titleButton;
         self.detailBackgroundView = detailBackgroundView;
         
         self.chineseTitleLabel = chineseTitleLabel;
@@ -172,7 +173,7 @@
 - (void)setDataSource:(NSMutableDictionary *)dataSource {
     _dataSource = dataSource;
     
-    self.titleLabel.text = dataSource[@"name"];
+    [self.titleButton setTitle:dataSource[@"name"] forState:UIControlStateNormal];
     self.chineseContentLabel.text = dataSource[@"name"];
     self.tibetanContentLabel.text = dataSource[@"tibetan"];
     self.homophonicContentLabel.text = dataSource[@"homophonic"];
@@ -188,8 +189,7 @@
     
     self.titleView.frame = CGRectMake(10, 15, 5, 15);
     
-    CGFloat height = [self label:self.titleLabel setHeightToWidth:kMainScreenWidth - 10 - 5 - 10 - 10];
-    self.titleLabel.frame = CGRectMake(10 + 5 + 10, 15, kMainScreenWidth - 10 - 5 - 10 - 10, height);
+    self.titleButton.frame = CGRectMake(10 + 5 + 10, 0, kMainScreenWidth - 10 - 5 - 10 - 10, 45);
     
     CGFloat detailBackgroundViewMaxHeight;
     // 汉
@@ -222,7 +222,7 @@
     detailBackgroundViewMaxHeight = height3 < 25 ? self.homophonicContentLabel.frame.origin.y + self.homophonicContentLabel.frame.size.height + 15 + 5 : self.homophonicContentLabel.frame.origin.y + self.homophonicContentLabel.frame.size.height + 15;
     
     // 背景
-    self.detailBackgroundView.frame = CGRectMake(10, height + 15 + 15, kMainScreenWidth - 20, detailBackgroundViewMaxHeight);
+    self.detailBackgroundView.frame = CGRectMake(10, 20 + 15 + 15, kMainScreenWidth - 20, detailBackgroundViewMaxHeight);
 }
 
 - (CGFloat)label:(UILabel *)label setHeightToWidth:(CGFloat)width {

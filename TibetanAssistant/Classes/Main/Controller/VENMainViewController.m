@@ -73,6 +73,9 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         VENMainTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
         cell.dataSource = self.dataSource[indexPath.row];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        
+        [cell.titleButton addTarget:self action:@selector(titleButtonClick) forControlEvents:UIControlEventTouchUpInside];
+        
         return cell;
     } else {
         VENHomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
@@ -103,6 +106,11 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     return nil;
 }
 
+- (void)titleButtonClick {
+    self.indexPathRow = -1;
+    [self.tableView reloadData];
+}
+
 - (void)starButtonClick:(UIButton *)button {
     button.selected = !button.selected;
     
@@ -118,7 +126,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.indexPathRow = self.indexPathRow == indexPath.row ? -1 : indexPath.row;
+    self.indexPathRow = indexPath.row;
     
     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     
@@ -127,7 +135,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     [self.view endEditing:YES];
-    return self.indexPathRow == indexPath.row ? 190 : 50;
+    return self.indexPathRow == indexPath.row ? 200 : 50;
 }
 
 - (void)setupTableView {
@@ -209,16 +217,19 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         // 进入 APP 显示所有数据
         [self.dataSource addObjectsFromArray:self.tablewordsArr];
     } else {
-        VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
-        [self presentViewController:vc animated:YES completion:nil];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"需要更新数据才能建立本地词库！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         
-        MBProgressHUD *hud = [MBProgressHUD showHUDAddedTo:[[UIApplication sharedApplication] keyWindow] animated:YES];
+        UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:nil];
         
-        hud.label.text = @"需要数据更新才能建立本地词库";
-        hud.label.numberOfLines = 0;
-        hud.mode = MBProgressHUDModeText;
-        [hud hideAnimated:YES afterDelay:2.0f];
-        hud.userInteractionEnabled = NO;
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+            VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+            [self presentViewController:vc animated:YES completion:nil];
+        }];
+        
+        [alert addAction:appropriateAction];
+        [alert addAction:cancelAction];
+        
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 

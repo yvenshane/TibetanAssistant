@@ -22,10 +22,10 @@
         
         self.backgroundColor = [UIColor whiteColor];
         
-        NSArray *titleArr = @[@"首页", @"收藏", @"更多"];
-        NSArray *imageArr = @[@"tabBar1", @"tabBar2", @"tabBar3"];
+        NSArray *titleArr = @[@"首页", @"收藏", @"藏语", @"更多"];
+        NSArray *imageArr = @[@"tabBar1", @"tabBar2", @"tabBar4", @"tabBar3"];
         
-        for (NSInteger i = 0; i < 3; i++) {
+        for (NSInteger i = 0; i < titleArr.count; i++) {
             UIButton *button = [[UIButton alloc] init];
             button.tag = i + 1;
             
@@ -80,8 +80,11 @@
         
         self.blk(@"sc");
         
+    } else if (button.tag == 3) {
+    
+        self.blk(@"zys");
     } else {
-        CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 3 / 2) , kMainScreenHeight - 51);
+        CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 4 / 2) , kMainScreenHeight - 51);
         
         [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:90 otherSettings:^(YBPopupMenu *popupMenu) {
             popupMenu.dismissOnSelected = YES;
@@ -111,7 +114,7 @@
 - (void)layoutSubviews {
     [super layoutSubviews];
     
-    CGFloat buttonWidth = kMainScreenWidth / 3;
+    CGFloat buttonWidth = kMainScreenWidth / _tabBarButtonsMuArr.count;
     
     for (NSInteger i = 0; i < _tabBarButtonsMuArr.count; i++) {
         _tabBarButtonsMuArr[i].frame = CGRectMake(buttonWidth * i, 1, buttonWidth, 49);

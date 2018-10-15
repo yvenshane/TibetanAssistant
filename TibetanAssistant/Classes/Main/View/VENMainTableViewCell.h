@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 
 @interface VENMainTableViewCell : UITableViewCell
-@property (nonatomic, strong) UILabel *titleLabel;
+@property (nonatomic, strong) UIButton *titleButton;
 
 @property (nonatomic, strong) UILabel *chineseContentLabel;
 @property (nonatomic, strong) UIButton *collectionButton;
