@@ -21,7 +21,7 @@
     
     self.statusBarLayoutConstraint.constant = [[UIApplication sharedApplication] statusBarFrame].size.height;
     
-    self.about2LayoutConstraint.constant = isIPhone5 ? 76 : 93;
+    self.view.backgroundColor = UIColorMake(248, 245, 247);
     
     NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
     NSString *app_Version = [infoDictionary objectForKey:@"CFBundleShortVersionString"];
