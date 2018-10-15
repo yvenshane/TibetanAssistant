@@ -39,7 +39,7 @@
         UILabel *titleLabel = [[UILabel alloc] init];
         titleLabel.text = @"标题标题标题标题标题标";
         titleLabel.textColor = UIColorMake(0, 111, 106);
-        titleLabel.font = [UIFont systemFontOfSize:14.0f];
+        titleLabel.font = [UIFont systemFontOfSize:16.0f];
         titleLabel.numberOfLines = 0;
         [self addSubview:titleLabel];
         
@@ -66,7 +66,7 @@
         UILabel *chineseContentLabel = [[UILabel alloc] init];
         chineseContentLabel.text = @"汉字汉字汉字汉汉汉汉字汉字汉字汉汉汉汉字汉字汉字汉汉汉汉字汉字汉字汉汉汉汉字汉字汉";
         chineseContentLabel.textColor = [UIColor blackColor];
-        chineseContentLabel.font = [UIFont systemFontOfSize:13.0f];
+        chineseContentLabel.font = [UIFont systemFontOfSize:14.0f];
         chineseContentLabel.numberOfLines = 0;
         [detailBackgroundView addSubview:chineseContentLabel];
         
@@ -91,7 +91,7 @@
         UILabel *tibetanContentLabel = [[UILabel alloc] init];
         tibetanContentLabel.text = @"藏语藏语藏语藏藏语藏藏语藏藏语藏语语藏藏语藏藏语藏藏语藏语语藏藏语藏藏语藏藏语藏语";
         tibetanContentLabel.textColor = [UIColor blackColor];
-        tibetanContentLabel.font = [UIFont systemFontOfSize:13.0f];
+        tibetanContentLabel.font = [UIFont systemFontOfSize:16.0f];
         tibetanContentLabel.numberOfLines = 0;
         [detailBackgroundView addSubview:tibetanContentLabel];
         
@@ -115,7 +115,7 @@
         UILabel *homophonicContentLabel = [[UILabel alloc] init];
         homophonicContentLabel.text = @"谐音谐音谐谐音谐音谐谐音谐音";
         homophonicContentLabel.textColor = [UIColor blackColor];
-        homophonicContentLabel.font = [UIFont systemFontOfSize:13.0f];
+        homophonicContentLabel.font = [UIFont systemFontOfSize:14.0f];
         homophonicContentLabel.numberOfLines = 0;
         [detailBackgroundView addSubview:homophonicContentLabel];
         
