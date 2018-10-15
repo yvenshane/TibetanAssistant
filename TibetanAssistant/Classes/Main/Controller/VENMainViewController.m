@@ -77,10 +77,10 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     } else {
         VENHomePageTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier1 forIndexPath:indexPath];
         
-
-        
         cell.starButton.hidden = self.showCollectionButton ? NO : YES;
         cell.starButton.selected = [_dataSource[indexPath.row][@"collection"] isEqualToString:@"1"] ? NO : YES;
+        cell.starButton.tag = indexPath.row;
+        [cell.starButton addTarget:self action:@selector(starButtonClick:) forControlEvents:UIControlEventTouchUpInside];
         
         // 搜索 改变关键字颜色
         if (_changLabelTitle) {
@@ -103,9 +103,22 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     return nil;
 }
 
+- (void)starButtonClick:(UIButton *)button {
+    button.selected = !button.selected;
+    
+    // 更改收藏状态
+    NSString *SQL = [NSString stringWithFormat:@"update 'tablewords' set collection='%d' where id='%@'", !button.selected, _dataSource[button.tag][@"id"]];
+    
+    if ([[VENSQLiteManager sharedSQLiteManager] execSQL:SQL]) {
+        NSLog(@"对应数据修改成功");
+    }
+    
+    _dataSource[button.tag][@"collection"] = button.selected == YES ? @"0" : @"1";
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    self.indexPathRow = indexPath.row;
+    self.indexPathRow = self.indexPathRow == indexPath.row ? -1 : indexPath.row;
     
     [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
     
@@ -113,48 +126,9 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
     [self.view endEditing:YES];
-    
-    if (self.indexPathRow == indexPath.row) {
-        return 190;
-    }
-    return 50;
+    return self.indexPathRow == indexPath.row ? 190 : 50;
 }
-
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//
-//}
-
-//
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-//    if (indexPath.row == _indexPathRow) {
-////        NSLog(@"%@", _dataSource[_indexPathRow]);
-//
-//        UILabel *label = [[UILabel alloc] init];
-//        label.font = [UIFont systemFontOfSize:13.0f];
-//        label.text = _dataSource[_indexPathRow][@"name"];
-//        CGFloat width = kMainScreenWidth - 10 - 10 - 25 - 10 - 10 - 10 - 10 - 18 - 10;
-//        CGFloat height = [self label:label setHeightToWidth:width];
-//
-//        UILabel *label2 = [[UILabel alloc] init];
-//        label2.font = [UIFont systemFontOfSize:13.0f];
-//        label2.text = _dataSource[_indexPathRow][@"tibetan"];
-//        CGFloat height2 = [self label:label2 setHeightToWidth:width];
-//
-//        UILabel *label3 = [[UILabel alloc] init];
-//        label3.font = [UIFont systemFontOfSize:13.0f];
-//        label3.text = _dataSource[_indexPathRow][@"homophonic"];
-//        CGFloat width2 = kMainScreenWidth - 10 - 10 - 25 - 10 - 10 - 10;
-//        CGFloat height3 = [self label:label3 setHeightToWidth:width2];
-//
-//        NSLog(@"%f - %f - %f", height, height2, height3);
-//
-//        return 190 - 45 + height + height2 + height3;
-//    }
-//    return 50;
-//}
 
 - (void)setupTableView {
     UITableView *tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - 120.5 - tabBarHeight) style:UITableViewStylePlain];
@@ -195,12 +169,6 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
                     }
                 }
             }
-            
-//            // 计算 cell 高度
-//            VENMainTableViewCell *cell = [[VENMainTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-//            cell.dataSource = self.dataSource[];
-//            [cell layoutSubviews];
-//            self.cellMaxHeight = cell.cellMaxHeight;
         };
         
         [self.view addSubview:popView];
@@ -222,6 +190,11 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         
         NSString *querySQL2 = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
         self.tablewordsArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL2];
+        
+        // 解决 二级目录 进入更多页面返回后 条数增加问题
+        [self.secondTableTitleMuArr1 removeAllObjects];
+        [self.secondTableTitleMuArr2 removeAllObjects];
+        [self.secondTableTitleMuArr3 removeAllObjects];
         
         for (NSDictionary *tempDict in _tablesmallstyleArr) {
             if ([tempDict[@"parentid"] isEqualToString:@"1"]) {
@@ -247,50 +220,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         [hud hideAnimated:YES afterDelay:2.0f];
         hud.userInteractionEnabled = NO;
     }
-    
-    
-    
-
-    
-    
-
-    
-    
-    
-    
-    
-    
-    
-    
-//    int secondTableTitleMuArr1Count = 0;
-//    int secondTableTitleMuArr2Count = 0;
-//    int secondTableTitleMuArr3Count = 0;
-//    
-//    for (NSString *str in parentidArr) {
-
-//    }
-//    
-//    for (NSInteger i = 0; i < secondTableTitleMuArr1Count; i++) {
-
-//    }
-//    
-//    for (NSInteger i = secondTableTitleMuArr1Count; i < secondTableTitleMuArr1Count + secondTableTitleMuArr2Count; i++) {
-//        [self.secondTableTitleMuArr2 addObject:nameArr[i]];
-//    }
-//    
-//    for (NSInteger i = secondTableTitleMuArr1Count + secondTableTitleMuArr2Count; i < secondTableTitleMuArr1Count + secondTableTitleMuArr2Count + secondTableTitleMuArr3Count; i++) {
-//        [self.secondTableTitleMuArr3 addObject:nameArr[i]];
-//    }
-//    
-//    // ----------------------------------------------------------------------------------------------------------
-//    
-//    // 查询数据库
-//    NSArray *nameArr2 = [[VENSQLiteManager sharedSQLiteManager] queryDataBaseWithParam:@"name" atTable:@"tablewords"];
-//    
-//    NSLog(@"%@", nameArr2);
 }
-
-
 
 - (void)setupTabBar {
     VENTabBarView *tabBar = [[VENTabBarView alloc] initWithFrame:CGRectMake(0, kMainScreenHeight - tabBarHeight, kMainScreenWidth, tabBarHeight)];
@@ -309,12 +239,18 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         if ([str isEqualToString:@"sjgx"]) {
             VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
+            self.showCollectionButton = NO;
+            self.changLabelTitle = NO;
         } else if ([str isEqualToString:@"gy"]) {
             VENAboutViewController *vc = [[VENAboutViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
+            self.showCollectionButton = NO;
+            self.changLabelTitle = NO;
         } else if ([str isEqualToString:@"bz"]){
             VENHelpViewController *vc = [[VENHelpViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
+            self.showCollectionButton = NO;
+            self.changLabelTitle = NO;
         } else if ([str isEqualToString:@"sy"]){
             NSString *querySQL = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
@@ -361,7 +297,6 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 //            [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             
             for (NSDictionary *arr in [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL]) {
-                
                 if (buttonTag == 1) {
                     if ([arr[@"styleid"] integerValue] <= weakSelf.secondTableTitleMuArr1.count) {
                         [weakSelf.dataSource addObject:arr];

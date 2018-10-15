@@ -157,6 +157,7 @@
 }
 
 - (void)collectionButtonClick:(UIButton *)button {
+    
     button.selected = !button.selected;
     // 更改收藏状态
     NSString *SQL = [NSString stringWithFormat:@"update 'tablewords' set collection='%d' where id='%@'", button.selected, _dataSource[@"id"]];
