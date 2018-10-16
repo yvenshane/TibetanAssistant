@@ -82,7 +82,7 @@
         
     } else if (button.tag == 3) {
     
-        self.blk(@"zys");
+        self.blk(@"zy");
     } else {
         CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 4 / 2) , kMainScreenHeight - 51);
         

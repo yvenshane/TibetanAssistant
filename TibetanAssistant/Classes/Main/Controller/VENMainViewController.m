@@ -19,6 +19,7 @@
 @interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
 @property (nonatomic, strong) VENPopView *popView;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) UIWebView *webView;
 
 @property (nonatomic, strong) NSMutableArray *tablesmallstyleArr; // 所有二级类
 @property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr1; // 日常用语
@@ -154,6 +155,10 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 
 - (VENPopView *)popView {
     if (_popView == nil) {
+        
+        [self.webView removeFromSuperview];
+        self.webView = nil;
+        
         CGFloat height = ceil(self.dataMuArr.count / 4.0) * 44 + 44;
         VENPopView *popView = [[VENPopView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, height) setPopViewData:self.dataMuArr]; // 必须除以 4.0
         
@@ -184,6 +189,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         _popView = popView;
         
         self.tableView.frame = CGRectMake(0, 120.5 + height, kMainScreenWidth, kMainScreenHeight - 120.5 - height - tabBarHeight);
+        self.webView.frame = CGRectMake(0, 120.5 + height, kMainScreenWidth, kMainScreenHeight - 120.5 - height - tabBarHeight);
     }
     return _popView;
 }
@@ -242,6 +248,10 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         self.indexPathRow = -1;
         [self.popView removeFromSuperview];
         self.popView = nil;
+        
+        [self.webView removeFromSuperview];
+        self.webView = nil;
+        
         self.tableView.frame = CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5);
         
         // 发送通知
@@ -272,6 +282,20 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = YES;
             self.changLabelTitle = NO;
+        } else {
+            
+
+            
+            if (self.webView == nil) {
+                UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5)];
+                NSURL *url = [[NSBundle mainBundle] URLForResource:@"index.html" withExtension:nil];
+                
+                NSURLRequest *request = [NSURLRequest requestWithURL:url];
+                [webView loadRequest:request];
+                [self.view addSubview:webView];
+                
+                self.webView = webView;
+            }
         }
         
         [self.tableView reloadData];
@@ -347,8 +371,14 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     navBar.blk3 = ^(NSString *str) {
         [weakSelf.popView removeFromSuperview];
         weakSelf.popView = nil;
+        
+        [weakSelf.webView removeFromSuperview];
+        weakSelf.webView = nil;
+        
 //        [weakSelf.dataSource removeAllObjects];
         weakSelf.tableView.frame = CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5);
+        
+        
         [weakSelf.tableView reloadData];
     };
     [self.view addSubview:navBar];
@@ -408,9 +438,18 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     return size.height;
 }
 
+- (void)dealloc {
+    [self.webView stopLoading];
+    [self.webView removeFromSuperview];
+    self.webView = nil;
+}
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+    
+    // 内存告警 清楚所有缓存的Response
+    [[NSURLCache sharedURLCache] removeAllCachedResponses];
 }
 
 /*
