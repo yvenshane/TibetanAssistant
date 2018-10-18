@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^finishBlock)(NSString *);
 @interface VENDataUpdateViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIButton *navigationLeftButton;
 @property (weak, nonatomic) IBOutlet UILabel *navigationTitle;
@@ -17,12 +18,13 @@ NS_ASSUME_NONNULL_BEGIN
 @property (weak, nonatomic) IBOutlet UIButton *imageButton;
 @property (weak, nonatomic) IBOutlet UIButton *downloadButton;
 
-@property (weak, nonatomic) IBOutlet UIView *coverView; // 遮罩 确认版本号后隐藏
-
 @property (weak, nonatomic) IBOutlet UIView *downloadView;
 @property (weak, nonatomic) IBOutlet UIButton *suspendButton;
 @property (weak, nonatomic) IBOutlet UIButton *continueButton;
 @property (weak, nonatomic) IBOutlet UITextView *logTextView;
+
+@property (nonatomic, copy) NSString *serverStr;
+@property (nonatomic, copy) finishBlock blk;
 
 @end
 

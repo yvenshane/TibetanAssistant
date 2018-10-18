@@ -15,11 +15,12 @@
 #import "VENHomePageTableViewCell.h"
 #import "VENAboutViewController.h"
 #import "VENHelpViewController.h"
+#import "VENZyPageView.h"
+#import "VENWebViewController.h"
 
 @interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
 @property (nonatomic, strong) VENPopView *popView;
 @property (nonatomic, strong) UITableView *tableView;
-@property (nonatomic, strong) UIWebView *webView;
 
 @property (nonatomic, strong) NSMutableArray *tablesmallstyleArr; // 所有二级类
 @property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr1; // 日常用语
@@ -35,6 +36,10 @@
 @property (nonatomic, assign) BOOL showCollectionButton;
 @property (nonatomic, assign) BOOL changLabelTitle;
 @property (nonatomic, copy) NSString *keyWord;
+
+@property (nonatomic, copy) NSString *serverStr;
+
+@property (nonatomic, strong) UIView *headerView;
 
 @end
 
@@ -53,16 +58,19 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
+    
     [self setupData];
     
     [self setupNavigation];
     [self setupTabBar];
     [self setupTableView];
+    [self setupTableHeaderView];
     
     self.indexPathRow = -1; // 设置展开 cell 初始值
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -153,11 +161,30 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     _tableView = tableView;
 }
 
+- (void)setupTableHeaderView {
+    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, kMainScreenWidth, 380)];
+    
+    VENZyPageView *backgroundView = [[[NSBundle mainBundle] loadNibNamed:@"VENZyPageView" owner:self options:nil] lastObject];
+    backgroundView.frame = CGRectMake(32, 50, kMainScreenWidth - 64, 325);
+    backgroundView.layer.cornerRadius = 10;
+    backgroundView.layer.masksToBounds = YES;
+    
+    backgroundView.block = ^(NSString *str, NSString *str2) {
+        VENWebViewController *vc = [[VENWebViewController alloc] init];
+        vc.fileNumber = str;
+        vc.title = str2;
+        [self presentViewController:vc animated:YES completion:nil];
+    };
+    
+    [headerView addSubview:backgroundView];
+    
+    _headerView = headerView;
+}
+
 - (VENPopView *)popView {
     if (_popView == nil) {
         
-        [self.webView removeFromSuperview];
-        self.webView = nil;
+        self.tableView.tableHeaderView = nil;
         
         CGFloat height = ceil(self.dataMuArr.count / 4.0) * 44 + 44;
         VENPopView *popView = [[VENPopView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, height) setPopViewData:self.dataMuArr]; // 必须除以 4.0
@@ -189,54 +216,120 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         _popView = popView;
         
         self.tableView.frame = CGRectMake(0, 120.5 + height, kMainScreenWidth, kMainScreenHeight - 120.5 - height - tabBarHeight);
-        self.webView.frame = CGRectMake(0, 120.5 + height, kMainScreenWidth, kMainScreenHeight - 120.5 - height - tabBarHeight);
     }
     return _popView;
 }
 
 - (void)setupData {
-    // 打开数据库
-    if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
-        // 查询数据库
-        // 查询语句
-        NSString *querySQL = @"select id,name,parentid from tablesmallstyle;";
-        self.tablesmallstyleArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
+    
+    // 检查服务器最新数据
+    NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/Ver.txt"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    // 文件路径
+    NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version"];
+    
+    // 创建文件夹
+    [self createDirWithPath:@"version"];
+    
+    // 删除文件
+    BOOL isDelete = [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+    if (isDelete) {
+        // 创建文件夹
+        [self createDirWithPath:@"version"];
         
-        NSString *querySQL2 = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
-        self.tablewordsArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL2];
-        
-        // 解决 二级目录 进入更多页面返回后 条数增加问题
-        [self.secondTableTitleMuArr1 removeAllObjects];
-        [self.secondTableTitleMuArr2 removeAllObjects];
-        [self.secondTableTitleMuArr3 removeAllObjects];
-        
-        for (NSDictionary *tempDict in _tablesmallstyleArr) {
-            if ([tempDict[@"parentid"] isEqualToString:@"1"]) {
-                [self.secondTableTitleMuArr1 addObject:tempDict[@"name"]];
-            } else if ([tempDict[@"parentid"] isEqualToString:@"2"]) {
-                [self.secondTableTitleMuArr2 addObject:tempDict[@"name"]];
-            } else if ([tempDict[@"parentid"] isEqualToString:@"3"]) {
-                [self.secondTableTitleMuArr3 addObject:tempDict[@"name"]];
+        // 下载版本信息
+        [[[AFHTTPSessionManager manager] downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+            
+            NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/version/%@", response.suggestedFilename]];
+            
+            return [NSURL fileURLWithPath:fullPath];
+            
+        } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+            
+            NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version/Ver.txt"];
+            
+            NSString *serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+            NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+            
+            self.serverStr = serverStr;
+            
+            NSLog(@"serverStr - %@", serverStr);
+            NSLog(@"localStr - %@", localStr);
+            
+            // 最新版本
+            if ([localStr isEqualToString:serverStr]) {
+                
+                // 打开数据库
+                if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                    [self setupHomePageData];
+                }
+            } else {
+                
+                NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+                NSString *alertTitle = localStr == nil && localStr.length < 1 ? @"需要更新数据才能建立本地词库！" : @"发现已有本地词库，是否更新？";
+                
+                // 需要更新数据库
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                    // 打开数据库
+                    if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                        [self setupHomePageData];
+                    }
+                }];
+                
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+                    vc.serverStr = serverStr;
+                    vc.blk = ^(NSString *str) {
+                        // 打开数据库
+                        if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                            [self setupHomePageData];
+                        }
+                    };
+                    [self presentViewController:vc animated:YES completion:nil];
+                }];
+                
+                [alert addAction:appropriateAction];
+                [alert addAction:cancelAction];
+                
+                [self presentViewController:alert animated:YES completion:nil];
             }
-        }
-        
-        // 进入 APP 显示所有数据
-        [self.dataSource addObjectsFromArray:self.tablewordsArr];
-    } else {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"需要更新数据才能建立本地词库！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        
-        UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:nil];
-        
-        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-            VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
-            [self presentViewController:vc animated:YES completion:nil];
-        }];
-        
-        [alert addAction:appropriateAction];
-        [alert addAction:cancelAction];
-        
-        [self presentViewController:alert animated:YES completion:nil];
+        }] resume];
     }
+}
+
+- (void)setupHomePageData {
+    // 查询数据库
+    // 查询语句
+    NSString *querySQL = @"select id,name,parentid from tablesmallstyle;";
+    self.tablesmallstyleArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
+    
+    NSString *querySQL2 = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
+    self.tablewordsArr = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL2];
+    
+    // 解决 二级目录 进入更多页面返回后 条数增加问题
+    [self.secondTableTitleMuArr1 removeAllObjects];
+    [self.secondTableTitleMuArr2 removeAllObjects];
+    [self.secondTableTitleMuArr3 removeAllObjects];
+    
+    for (NSDictionary *tempDict in self.tablesmallstyleArr) {
+        if ([tempDict[@"parentid"] isEqualToString:@"1"]) {
+            [self.secondTableTitleMuArr1 addObject:tempDict[@"name"]];
+        } else if ([tempDict[@"parentid"] isEqualToString:@"2"]) {
+            [self.secondTableTitleMuArr2 addObject:tempDict[@"name"]];
+        } else if ([tempDict[@"parentid"] isEqualToString:@"3"]) {
+            [self.secondTableTitleMuArr3 addObject:tempDict[@"name"]];
+        }
+    }
+    
+    // 进入 APP 显示所有数据
+    [self.dataSource addObjectsFromArray:self.tablewordsArr];
+    [self.tableView reloadData];
 }
 
 - (void)setupTabBar {
@@ -249,8 +342,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         [self.popView removeFromSuperview];
         self.popView = nil;
         
-        [self.webView removeFromSuperview];
-        self.webView = nil;
+        self.tableView.tableHeaderView = nil;
         
         self.tableView.frame = CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5);
         
@@ -259,6 +351,13 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         
         if ([str isEqualToString:@"sjgx"]) {
             VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+            vc.serverStr = self.serverStr;
+            vc.blk = ^(NSString *str) {
+                // 打开数据库
+                if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                    [self setupHomePageData];
+                }
+            };
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
@@ -282,20 +381,9 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = YES;
             self.changLabelTitle = NO;
-        } else {
-            
-
-            
-            if (self.webView == nil) {
-                UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5)];
-                NSURL *url = [[NSBundle mainBundle] URLForResource:@"index.html" withExtension:nil];
-                
-                NSURLRequest *request = [NSURLRequest requestWithURL:url];
-                [webView loadRequest:request];
-                [self.view addSubview:webView];
-                
-                self.webView = webView;
-            }
+        } else if ([str isEqualToString:@"zy"]){
+            self.tableView.backgroundColor = UIColorMake(242, 238, 241);
+            self.tableView.tableHeaderView = self.headerView;
         }
         
         [self.tableView reloadData];
@@ -372,8 +460,7 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         [weakSelf.popView removeFromSuperview];
         weakSelf.popView = nil;
         
-        [weakSelf.webView removeFromSuperview];
-        weakSelf.webView = nil;
+        self.tableView.tableHeaderView = nil;
         
 //        [weakSelf.dataSource removeAllObjects];
         weakSelf.tableView.frame = CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5);
@@ -382,6 +469,23 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         [weakSelf.tableView reloadData];
     };
     [self.view addSubview:navBar];
+}
+
+- (void)createDirWithPath:(NSString *)path {
+    
+    NSString *cachesDir = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory,NSUserDomainMask,YES) firstObject];
+    NSString *dataFilePath = [cachesDir stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/%@/", path]];
+    
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    
+    BOOL isDir = NO;
+    
+    // fileExistsAtPath 判断一个文件或目录是否有效，isDirectory判断是否一个目录
+    BOOL existed = [fileManager fileExistsAtPath:dataFilePath isDirectory:&isDir];
+    
+    if (!(isDir && existed)) {
+        [fileManager createDirectoryAtPath:dataFilePath withIntermediateDirectories:YES attributes:nil error:nil];
+    }
 }
 
 - (NSMutableArray *)dataSource {
@@ -436,12 +540,6 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
 - (CGFloat)label:(UILabel *)label setHeightToWidth:(CGFloat)width {
     CGSize size = [label sizeThatFits:CGSizeMake(width, CGFLOAT_MAX)];
     return size.height;
-}
-
-- (void)dealloc {
-    [self.webView stopLoading];
-    [self.webView removeFromSuperview];
-    self.webView = nil;
 }
 
 - (void)didReceiveMemoryWarning {
