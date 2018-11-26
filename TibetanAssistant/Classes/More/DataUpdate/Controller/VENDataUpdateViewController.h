@@ -19,9 +19,9 @@ typedef void (^finishBlock)(NSString *);
 @property (weak, nonatomic) IBOutlet UIButton *downloadButton;
 
 @property (weak, nonatomic) IBOutlet UIView *downloadView;
-@property (weak, nonatomic) IBOutlet UIButton *suspendButton;
-@property (weak, nonatomic) IBOutlet UIButton *continueButton;
-@property (weak, nonatomic) IBOutlet UITextView *logTextView;
+@property (weak, nonatomic) IBOutlet UIButton *continueDownloadButton;
+@property (weak, nonatomic) IBOutlet UIButton *redownloadButton;
+@property (weak, nonatomic) IBOutlet UILabel *logLabel;
 
 @property (nonatomic, copy) NSString *serverStr;
 @property (nonatomic, copy) finishBlock blk;

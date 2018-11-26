@@ -19,6 +19,7 @@
 #import <YBPopupMenu.h>
 #import "VENSQLiteManager.h"
 #import "VENMBProgressHUDManager.h"
+#import "VENClassEmptyManager.h"
 
 #define kMainScreenFrameRect [UIScreen mainScreen].bounds
 #define kMainScreenWidth kMainScreenFrameRect.size.width

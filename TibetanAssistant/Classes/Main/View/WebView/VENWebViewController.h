@@ -10,6 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
+typedef void (^finishBlock)(NSString *);
 @interface VENWebViewController : UIViewController
 @property (weak, nonatomic) IBOutlet UIWebView *webView;
 @property (weak, nonatomic) IBOutlet NSLayoutConstraint *statusBarLayoutConstraint;
@@ -17,6 +18,8 @@ NS_ASSUME_NONNULL_BEGIN
 
 @property (nonatomic, copy) NSString *fileNumber;
 @property (nonatomic, copy) NSString *title;
+
+@property (nonatomic, copy) finishBlock blk;
 
 @end
 

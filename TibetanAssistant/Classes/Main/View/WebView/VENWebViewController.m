@@ -32,6 +32,7 @@
 
 - (IBAction)bacbuttonClick:(id)sender {
     [self dismissViewControllerAnimated:YES completion:nil];
+    self.blk(@"Don't Refresh");
 }
 
 /*

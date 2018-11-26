@@ -86,7 +86,7 @@
     } else {
         CGPoint p = CGPointMake(kMainScreenWidth - (kMainScreenWidth / 4 / 2) , kMainScreenHeight - 51);
         
-        [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"    关于"] icons:nil menuWidth:90 otherSettings:^(YBPopupMenu *popupMenu) {
+        [YBPopupMenu showAtPoint:p titles:@[@"    帮助", @"数据更新", @"软件说明", @"    关于"] icons:nil menuWidth:90 otherSettings:^(YBPopupMenu *popupMenu) {
             popupMenu.dismissOnSelected = YES;
             popupMenu.isShowShadow = YES;
             popupMenu.delegate = self;
@@ -102,10 +102,13 @@
 }
 
 - (void)ybPopupMenuDidSelectedAtIndex:(NSInteger)index ybPopupMenu:(YBPopupMenu *)ybPopupMenu {
-    if (index == 1) {
-        self.blk(@"sjgx");
-    } else if (index == 0) {
+    
+    if (index == 0) {
         self.blk(@"bz");
+    } else if (index == 1) {
+        self.blk(@"sjgx");
+    } else if (index == 2) {
+        self.blk(@"rjsm");
     } else {
         self.blk(@"gy");
     }

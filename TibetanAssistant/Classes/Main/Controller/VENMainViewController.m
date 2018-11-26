@@ -40,6 +40,7 @@
 @property (nonatomic, copy) NSString *serverStr;
 
 @property (nonatomic, strong) UIView *headerView;
+@property (nonatomic, assign) BOOL isRefresh;
 
 @end
 
@@ -53,13 +54,71 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     [UIApplication sharedApplication].statusBarStyle =  UIStatusBarStyleLightContent;
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    
+    if (!self.isRefresh) {
+        NSString *alert = [[NSUserDefaults standardUserDefaults] objectForKey:@"alert"];
+        
+        if ([[VENClassEmptyManager sharedManager] isEmptyString:alert]) {
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:@"1" forKey:@"alert"];
+            [defaults synchronize];
+            
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"1、“藏语日常用语学习助手”手机应用软件旨在响应国网青海省电力公司员工学习藏语口活动的开展，做为职工学习藏语口语的小工具。本助手收集了日常生活用语、电力服务常用语句及基本的常用词汇，以方便使用者查阅和学习；\n2、本助手发音为安多方言，但汉藏语系形式较多，即便是安多方言，也会存在着不同的差异，其书面语和口语之间也会有所不同，助手中个别播音与文字内容稍有差异，请学习者注意；\n3、助手中提供了藏语的谐音读法，但因藏语发音丰富，很多音节无法用汉字准确表述，所以仅供学习者参考，正确读音应以播音为准；\n4、本助手收集的词汇有限，今后将逐步扩充；\n5、我们期待您对本助手提出宝贵的意见，我们会不断完善和改进，以期对您的藏语之行有所助益。"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            NSArray *subViews = alert.view.subviews[0].subviews[0].subviews[0].subviews[0].subviews[0].subviews;
+            //            UILabel *titleLb = subViews[0];
+            UILabel *messageLb = subViews[1];
+            messageLb.textAlignment = NSTextAlignmentLeft;
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                [self setupData];
+            }];
+            
+            [alert addAction:cancelAction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
+            
+        } else {
+            
+            NSString *currentLength = [[NSUserDefaults standardUserDefaults] objectForKey:@"currentLength"];
+            if ([currentLength integerValue] != 0) {
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"数据传输意外中断，必须更新数据库以使其完整。" message:nil preferredStyle:UIAlertControllerStyleAlert];
+                
+                UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:nil];
+                
+                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                    
+                    VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+                    vc.serverStr = self.serverStr;
+                    vc.blk = ^(NSString *str) {
+                        // 打开数据库
+                        if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                            [self setupHomePageData];
+                        }
+                    };
+                    [self presentViewController:vc animated:YES completion:nil];
+                }];
+                
+                [alert addAction:appropriateAction];
+                [alert addAction:cancelAction];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+            }
+            
+            [self setupData];
+        }
+    }
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
     self.view.backgroundColor = [UIColor whiteColor];
-    
-    [self setupData];
     
     [self setupNavigation];
     [self setupTabBar];
@@ -67,10 +126,6 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     [self setupTableHeaderView];
     
     self.indexPathRow = -1; // 设置展开 cell 初始值
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -137,13 +192,13 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     
     self.indexPathRow = indexPath.row;
     
-    [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
-    
     [tableView reloadData];
+    
+    [tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:indexPath.row inSection:0] animated:YES scrollPosition:UITableViewScrollPositionMiddle];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    [self.view endEditing:YES];
+//    [self.view endEditing:YES];
     return self.indexPathRow == indexPath.row ? 200 : 50;
 }
 
@@ -174,6 +229,10 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         vc.fileNumber = str;
         vc.title = str2;
         [self presentViewController:vc animated:YES completion:nil];
+        
+        vc.blk = ^(NSString *str) {
+            self.isRefresh = YES;
+        };
     };
     
     [headerView addSubview:backgroundView];
@@ -254,51 +313,57 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             NSString *serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
             NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
             
-            self.serverStr = serverStr;
-            
             NSLog(@"serverStr - %@", serverStr);
             NSLog(@"localStr - %@", localStr);
             
-            // 最新版本
-            if ([localStr isEqualToString:serverStr]) {
-                
-                // 打开数据库
-                if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
-                    [self setupHomePageData];
-                }
+            if ([[VENClassEmptyManager sharedManager] isEmptyString:serverStr]) {
+                [[VENMBProgressHUDManager sharedMBProgressHUDManager] showText:@"网络不可用"];
             } else {
                 
-                NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
-                NSString *alertTitle = localStr == nil && localStr.length < 1 ? @"需要更新数据才能建立本地词库！" : @"发现已有本地词库，是否更新？";
+                self.serverStr = serverStr;
                 
-                // 需要更新数据库
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
-                
-                UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+                // 最新版本
+                if ([localStr isEqualToString:serverStr]) {
+                    
                     // 打开数据库
                     if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
                         [self setupHomePageData];
                     }
-                }];
-                
-                UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
-                    VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
-                    vc.serverStr = serverStr;
-                    vc.blk = ^(NSString *str) {
+                } else {
+                    
+                    NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+                    NSString *alertTitle = localStr == nil && localStr.length < 1 ? @"需要更新数据才能建立本地词库！" : @"检测到词库有更新，是否去更新？";
+                    
+                    // 需要更新数据库
+                    
+                    UIAlertController *alert = [UIAlertController alertControllerWithTitle:alertTitle message:nil preferredStyle:UIAlertControllerStyleAlert];
+                    
+                    UIAlertAction *appropriateAction = [UIAlertAction actionWithTitle:@"暂不" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
                         // 打开数据库
                         if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
                             [self setupHomePageData];
                         }
-                    };
-                    [self presentViewController:vc animated:YES completion:nil];
-                }];
-                
-                [alert addAction:appropriateAction];
-                [alert addAction:cancelAction];
-                
-                [self presentViewController:alert animated:YES completion:nil];
+                    }];
+                    
+                    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"去更新" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+                        VENDataUpdateViewController *vc = [[VENDataUpdateViewController alloc] init];
+                        vc.serverStr = serverStr;
+                        vc.blk = ^(NSString *str) {
+                            // 打开数据库
+                            if ([[VENSQLiteManager sharedSQLiteManager] openDB]) {
+                                [self setupHomePageData];
+                            }
+                        };
+                        [self presentViewController:vc animated:YES completion:nil];
+                    }];
+                    
+                    [alert addAction:appropriateAction];
+                    [alert addAction:cancelAction];
+                    
+                    [self presentViewController:alert animated:YES completion:nil];
+                }
             }
+            
         }] resume];
     }
 }
@@ -366,17 +431,17 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
-        } else if ([str isEqualToString:@"bz"]){
+        } else if ([str isEqualToString:@"bz"]) {
             VENHelpViewController *vc = [[VENHelpViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
-        } else if ([str isEqualToString:@"sy"]){
+        } else if ([str isEqualToString:@"sy"]) {
             NSString *querySQL = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
-        } else if ([str isEqualToString:@"sc"]){
+        } else if ([str isEqualToString:@"sc"]) {
             NSString *querySQL = @"select * from tablewords where collection > 0;";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = YES;
@@ -384,6 +449,21 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         } else if ([str isEqualToString:@"zy"]){
             self.tableView.backgroundColor = UIColorMake(242, 238, 241);
             self.tableView.tableHeaderView = self.headerView;
+        } else if ([str isEqualToString:@"rjsm"]) {
+            UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"1、“藏语日常用语学习助手”手机应用软件旨在响应国网青海省电力公司员工学习藏语口活动的开展，做为职工学习藏语口语的小工具。本助手收集了日常生活用语、电力服务常用语句及基本的常用词汇，以方便使用者查阅和学习；\n2、本助手发音为安多方言，但汉藏语系形式较多，即便是安多方言，也会存在着不同的差异，其书面语和口语之间也会有所不同，助手中个别播音与文字内容稍有差异，请学习者注意；\n3、助手中提供了藏语的谐音读法，但因藏语发音丰富，很多音节无法用汉字准确表述，所以仅供学习者参考，正确读音应以播音为准；\n4、本助手收集的词汇有限，今后将逐步扩充；\n5、我们期待您对本助手提出宝贵的意见，我们会不断完善和改进，以期对您的藏语之行有所助益。"  preferredStyle:UIAlertControllerStyleAlert];
+            
+            NSArray *subViews = alert.view.subviews[0].subviews[0].subviews[0].subviews[0].subviews[0].subviews;
+//            UILabel *titleLb = subViews[0];
+            UILabel *messageLb = subViews[1];
+            messageLb.textAlignment = NSTextAlignmentLeft;
+            
+            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {
+
+            }];
+            
+            [alert addAction:cancelAction];
+            
+            [self presentViewController:alert animated:YES completion:nil];
         }
         
         [self.tableView reloadData];
