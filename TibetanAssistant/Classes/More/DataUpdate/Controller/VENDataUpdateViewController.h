@@ -23,7 +23,6 @@ typedef void (^finishBlock)(NSString *);
 @property (weak, nonatomic) IBOutlet UIButton *redownloadButton;
 @property (weak, nonatomic) IBOutlet UILabel *logLabel;
 
-@property (nonatomic, copy) NSString *serverStr;
 @property (nonatomic, copy) finishBlock blk;
 
 @end

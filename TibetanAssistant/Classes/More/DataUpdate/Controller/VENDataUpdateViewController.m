@@ -9,8 +9,6 @@
 
 #import "VENDataUpdateViewController.h"
 #import "SSZipArchive.h"
-#import "SuspensionButton.h"//悬浮球按钮
-#import "SandBoxPreviewTool.h"
 
 @interface VENDataUpdateViewController () <SSZipArchiveDelegate>
 @property (weak, nonatomic) IBOutlet UIProgressView *progressView; // 进度条
@@ -50,7 +48,7 @@
     
     NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
     
-    NSLog(@"serverStr - %@", self.serverStr);
+//    NSLog(@"serverStr - %@", self.serverStr);
     NSLog(@"localStr - %@", localStr);
     
     // 有下载内容
@@ -71,7 +69,7 @@
         self.progressView.progress =  1.0 * self.currentLength / [totalLength integerValue];
         self.progressLabel.text = [NSString stringWithFormat:@"下载音频文件压缩包%.2fMB/%.2fMB", [currentLength floatValue] / 1024 /1024, [totalLength floatValue] / 1024 /1024];
     } else {
-        if ([self.serverStr isEqualToString:localStr]) {
+        if ([[self serverStr] isEqualToString:localStr]) {
             self.topLabel.text = @"当前已是最近版本";
             self.imageButton.selected = YES;
             self.logLabel.hidden = YES;
@@ -377,6 +375,7 @@
     } else {
         NSLog(@"%@",error);
     }
+    
 }
 
 - (void)zipArchiveWillUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo {
@@ -385,30 +384,72 @@
 
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath {
     
-    // 写入版本号
+    NSString *serverStr = [self serverStr];
+    
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults setObject:@"0" forKey:@"currentLength"];
-    [defaults setObject:self.serverStr forKey:@"version"];
+    // 写入版本号
+    [defaults setObject:serverStr forKey:@"version"];
     [defaults synchronize];
-    
-    NSString *localStr2 = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
-    NSLog(@"%@", self.serverStr);
-    NSLog(@"%@", localStr2);
-    
+
+    NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+    NSLog(@"serverStr %@", serverStr);
+    NSLog(@"localStr %@", localStr);
+
     // 首页刷新
     self.blk(@"");
-    
+
     self.progressView.hidden = YES;
     self.progressLabel.hidden = YES;
-    
+
     self.topLabel.text = @"当前已是最近版本";
     self.imageButton.selected = YES;
-    
     self.downloadView.hidden = NO;
     self.logLabel.hidden = YES;
     self.continueDownloadButton.backgroundColor = COLOR_THEME;
     [self.continueDownloadButton setTitle:@"知道了" forState:UIControlStateNormal];
     self.isFinish = YES;
+}
+
+- (NSString *)serverStr {
+    
+    __block NSString *serverStr;
+    
+    // 检查服务器最新数据
+    NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/Ver.txt"];
+    NSURLRequest *request = [NSURLRequest requestWithURL:url];
+    
+    // 文件路径
+    NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version"];
+    
+    // 创建文件夹
+    [self createDirWithPath:@"version"];
+    
+    // 删除文件
+    BOOL isDelete = [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+    if (isDelete) {
+        // 创建文件夹
+        [self createDirWithPath:@"version"];
+        
+        // 下载版本信息
+        [[[AFHTTPSessionManager manager] downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+            
+        } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+            
+            NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/version/%@", response.suggestedFilename]];
+            
+            return [NSURL fileURLWithPath:fullPath];
+            
+        } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+            
+            NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version/Ver.txt"];
+            
+            serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+            
+        }] resume];
+    }
+    
+    return serverStr;
 }
 
 - (void)createDirWithPath:(NSString *)path {
@@ -428,30 +469,7 @@
     }
 }
 
-/*
 #pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
-
-//// 创建悬浮球按钮
-//- (void)createDebugSuspensionButton{
-//    //自行添加哦~ 记得上线前要去除哦。 QA或者调试开发阶段可以这么使用
-//    SuspensionButton * button = [[SuspensionButton alloc] initWithFrame:CGRectMake(-5, [UIScreen mainScreen].bounds.size.height/2 - 100 , 50, 50) color:[UIColor colorWithRed:135/255.0 green:216/255.0 blue:80/255.0 alpha:1]];
-//    button.leanType = SuspensionViewLeanTypeEachSide;
-//    [button addTarget:self action:@selector(pushToDebugPage) forControlEvents:UIControlEventTouchUpInside];
-//    [self.view addSubview:button];
-//}
-//
-////open or close sandbox preview
-//- (void)pushToDebugPage{
-//    [[SandBoxPreviewTool sharedTool] autoOpenCloseApplicationDiskDirectoryPanel];
-//}
-
 - (void)AFNReachability {
     //1.创建网络监听管理者
     AFNetworkReachabilityManager *manager = [AFNetworkReachabilityManager sharedManager];

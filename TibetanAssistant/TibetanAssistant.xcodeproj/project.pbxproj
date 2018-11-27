@@ -37,15 +37,6 @@
 		2C6E21B621757EBC008E7793 /* wps2B07.tmp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2C6E21A621757EBC008E7793 /* wps2B07.tmp.jpg */; };
 		2C6E21BC21758573008E7793 /* wps2AF1.tmp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2C6E21BB21758573008E7793 /* wps2AF1.tmp.jpg */; };
 		2C7661F121A544160052BB4A /* VENClassEmptyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7661F021A544160052BB4A /* VENClassEmptyManager.m */; };
-		2C90A45421A45BAA00F6066B /* LJ_HomeDirViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A44421A45BAA00F6066B /* LJ_HomeDirViewController.m */; };
-		2C90A45521A45BAA00F6066B /* SuspensionButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A44921A45BAA00F6066B /* SuspensionButton.m */; };
-		2C90A45621A45BAA00F6066B /* SandBoxPreviewTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A44C21A45BAA00F6066B /* SandBoxPreviewTool.m */; };
-		2C90A45721A45BAA00F6066B /* LJ_DirToolNavigatorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A44D21A45BAA00F6066B /* LJ_DirToolNavigatorController.m */; };
-		2C90A45821A45BAA00F6066B /* SandBoxPreviewTool.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 2C90A44E21A45BAA00F6066B /* SandBoxPreviewTool.bundle */; };
-		2C90A45921A45BAA00F6066B /* LJ_FileInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A44F21A45BAA00F6066B /* LJ_FileInfo.m */; };
-		2C90A45A21A45BAA00F6066B /* LJ_FileInfoController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A45021A45BAA00F6066B /* LJ_FileInfoController.m */; };
-		2C90A45B21A45BAA00F6066B /* LJAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A45121A45BAA00F6066B /* LJAlertView.m */; };
-		2C90A45C21A45BAA00F6066B /* SLUnilityObject.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C90A45221A45BAA00F6066B /* SLUnilityObject.m */; };
 		2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */; };
 		2CCAB164215DD4BC00ADED15 /* VENSQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCAB163215DD4BC00ADED15 /* VENSQLiteManager.m */; };
 		2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C59214A7EE800AA468A /* AppDelegate.m */; };
@@ -100,23 +91,6 @@
 		2C6E21BB21758573008E7793 /* wps2AF1.tmp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wps2AF1.tmp.jpg; sourceTree = "<group>"; };
 		2C7661EF21A544150052BB4A /* VENClassEmptyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VENClassEmptyManager.h; sourceTree = "<group>"; };
 		2C7661F021A544160052BB4A /* VENClassEmptyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VENClassEmptyManager.m; sourceTree = "<group>"; };
-		2C90A44321A45BAA00F6066B /* SandBoxPreviewTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SandBoxPreviewTool.h; sourceTree = "<group>"; };
-		2C90A44421A45BAA00F6066B /* LJ_HomeDirViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJ_HomeDirViewController.m; sourceTree = "<group>"; };
-		2C90A44521A45BAA00F6066B /* LJ_DirToolNavigatorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJ_DirToolNavigatorController.h; sourceTree = "<group>"; };
-		2C90A44621A45BAA00F6066B /* LJ_FileInfoController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJ_FileInfoController.h; sourceTree = "<group>"; };
-		2C90A44721A45BAA00F6066B /* LJ_FileInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJ_FileInfo.h; sourceTree = "<group>"; };
-		2C90A44821A45BAA00F6066B /* SLUnilityObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SLUnilityObject.h; sourceTree = "<group>"; };
-		2C90A44921A45BAA00F6066B /* SuspensionButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SuspensionButton.m; sourceTree = "<group>"; };
-		2C90A44A21A45BAA00F6066B /* LJAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJAlertView.h; sourceTree = "<group>"; };
-		2C90A44B21A45BAA00F6066B /* LJ_HomeDirViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LJ_HomeDirViewController.h; sourceTree = "<group>"; };
-		2C90A44C21A45BAA00F6066B /* SandBoxPreviewTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SandBoxPreviewTool.m; sourceTree = "<group>"; };
-		2C90A44D21A45BAA00F6066B /* LJ_DirToolNavigatorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJ_DirToolNavigatorController.m; sourceTree = "<group>"; };
-		2C90A44E21A45BAA00F6066B /* SandBoxPreviewTool.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = SandBoxPreviewTool.bundle; sourceTree = "<group>"; };
-		2C90A44F21A45BAA00F6066B /* LJ_FileInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJ_FileInfo.m; sourceTree = "<group>"; };
-		2C90A45021A45BAA00F6066B /* LJ_FileInfoController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJ_FileInfoController.m; sourceTree = "<group>"; };
-		2C90A45121A45BAA00F6066B /* LJAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LJAlertView.m; sourceTree = "<group>"; };
-		2C90A45221A45BAA00F6066B /* SLUnilityObject.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SLUnilityObject.m; sourceTree = "<group>"; };
-		2C90A45321A45BAA00F6066B /* SuspensionButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SuspensionButton.h; sourceTree = "<group>"; };
 		2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2CCAB162215DD4BC00ADED15 /* VENSQLiteManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENSQLiteManager.h; sourceTree = "<group>"; };
 		2CCAB163215DD4BC00ADED15 /* VENSQLiteManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENSQLiteManager.m; sourceTree = "<group>"; };
@@ -260,30 +234,6 @@
 			path = image;
 			sourceTree = "<group>";
 		};
-		2C90A44221A45BAA00F6066B /* SandBoxPreviewTool */ = {
-			isa = PBXGroup;
-			children = (
-				2C90A44321A45BAA00F6066B /* SandBoxPreviewTool.h */,
-				2C90A44421A45BAA00F6066B /* LJ_HomeDirViewController.m */,
-				2C90A44521A45BAA00F6066B /* LJ_DirToolNavigatorController.h */,
-				2C90A44621A45BAA00F6066B /* LJ_FileInfoController.h */,
-				2C90A44721A45BAA00F6066B /* LJ_FileInfo.h */,
-				2C90A44821A45BAA00F6066B /* SLUnilityObject.h */,
-				2C90A44921A45BAA00F6066B /* SuspensionButton.m */,
-				2C90A44A21A45BAA00F6066B /* LJAlertView.h */,
-				2C90A44B21A45BAA00F6066B /* LJ_HomeDirViewController.h */,
-				2C90A44C21A45BAA00F6066B /* SandBoxPreviewTool.m */,
-				2C90A44D21A45BAA00F6066B /* LJ_DirToolNavigatorController.m */,
-				2C90A44E21A45BAA00F6066B /* SandBoxPreviewTool.bundle */,
-				2C90A44F21A45BAA00F6066B /* LJ_FileInfo.m */,
-				2C90A45021A45BAA00F6066B /* LJ_FileInfoController.m */,
-				2C90A45121A45BAA00F6066B /* LJAlertView.m */,
-				2C90A45221A45BAA00F6066B /* SLUnilityObject.m */,
-				2C90A45321A45BAA00F6066B /* SuspensionButton.h */,
-			);
-			path = SandBoxPreviewTool;
-			sourceTree = "<group>";
-		};
 		2CCAB15E215DD3F200ADED15 /* ShareManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -318,7 +268,6 @@
 		2CE18C57214A7EE800AA468A /* TibetanAssistant */ = {
 			isa = PBXGroup;
 			children = (
-				2C90A44221A45BAA00F6066B /* SandBoxPreviewTool */,
 				2C6E219921757EBC008E7793 /* html */,
 				2CCAB15E215DD3F200ADED15 /* ShareManager */,
 				2CE18C73214A863700AA468A /* Classes */,
@@ -488,7 +437,6 @@
 				2C6E21B621757EBC008E7793 /* wps2B07.tmp.jpg in Resources */,
 				2C6E21B021757EBC008E7793 /* wps2AF3.tmp.jpg in Resources */,
 				2C0D445C217832120074DB93 /* part2.html in Resources */,
-				2C90A45821A45BAA00F6066B /* SandBoxPreviewTool.bundle in Resources */,
 				2C6E21B121757EBC008E7793 /* wps2B08.tmp.jpg in Resources */,
 				2C0D445E217832120074DB93 /* part3.html in Resources */,
 				2C6E21BC21758573008E7793 /* wps2AF1.tmp.jpg in Resources */,
@@ -546,27 +494,19 @@
 			buildActionMask = 2147483647;
 			files = (
 				2CE18C68214A7EE900AA468A /* main.m in Sources */,
-				2C90A45921A45BAA00F6066B /* LJ_FileInfo.m in Sources */,
-				2C90A45421A45BAA00F6066B /* LJ_HomeDirViewController.m in Sources */,
 				2CF9539A214FE15F0039EFD8 /* VENNavigationBar.m in Sources */,
 				2C2484E4215104B500E20B06 /* VENPopView.m in Sources */,
-				2C90A45621A45BAA00F6066B /* SandBoxPreviewTool.m in Sources */,
 				2C4BA003215F640700681892 /* VENAboutViewController.m in Sources */,
 				2C0D8B7B2160D4BA00413AAE /* VENMBProgressHUDManager.m in Sources */,
 				2C305A4B215E4F7E00349831 /* VENHomePageTableViewCell.m in Sources */,
-				2C90A45C21A45BAA00F6066B /* SLUnilityObject.m in Sources */,
 				2C7661F121A544160052BB4A /* VENClassEmptyManager.m in Sources */,
-				2C90A45B21A45BAA00F6066B /* LJAlertView.m in Sources */,
 				2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */,
 				2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */,
-				2C90A45A21A45BAA00F6066B /* LJ_FileInfoController.m in Sources */,
 				2C4BA00C215F689D00681892 /* VENHelpViewController.m in Sources */,
 				2C62430421593104005216D5 /* VENDataUpdateViewController.m in Sources */,
-				2C90A45521A45BAA00F6066B /* SuspensionButton.m in Sources */,
 				2C0D444221781C760074DB93 /* VENZyPageView.m in Sources */,
 				2C0D444921782B530074DB93 /* VENWebViewController.m in Sources */,
 				2CE18C85214A8A8800AA468A /* VENTabBarView.m in Sources */,
-				2C90A45721A45BAA00F6066B /* LJ_DirToolNavigatorController.m in Sources */,
 				2CE18C81214A8A5000AA468A /* VENMainViewController.m in Sources */,
 				2CCAB164215DD4BC00ADED15 /* VENSQLiteManager.m in Sources */,
 			);
