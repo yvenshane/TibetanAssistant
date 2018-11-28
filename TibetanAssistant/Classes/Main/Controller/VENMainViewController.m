@@ -21,6 +21,7 @@
 @interface VENMainViewController () <UITableViewDelegate , UITableViewDataSource>
 @property (nonatomic, strong) VENPopView *popView;
 @property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, strong) VENNavigationBar *navBar;
 
 @property (nonatomic, strong) NSMutableArray *tablesmallstyleArr; // 所有二级类
 @property (nonatomic, strong) NSMutableArray *secondTableTitleMuArr1; // 日常用语
@@ -423,29 +424,47 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"gy"]) {
             VENAboutViewController *vc = [[VENAboutViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"bz"]) {
             VENHelpViewController *vc = [[VENHelpViewController alloc] init];
             [self presentViewController:vc animated:YES completion:nil];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"sy"]) {
             NSString *querySQL = @"select id,name,tibetan,homophonic,number,styleid,collection from tablewords;";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = NO;
             self.changLabelTitle = NO;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"sc"]) {
             NSString *querySQL = @"select * from tablewords where collection > 0;";
             self.dataSource = [[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL];
             self.showCollectionButton = YES;
             self.changLabelTitle = NO;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"zy"]){
             self.tableView.backgroundColor = UIColorMake(242, 238, 241);
             self.tableView.tableHeaderView = self.headerView;
+            
+            self.navBar.searchBarTextField.text = @"";
+            
         } else if ([str isEqualToString:@"rjsm"]) {
             UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:@"1、“藏语日常用语学习助手”手机应用软件旨在响应国网青海省电力公司员工学习藏语口活动的开展，做为职工学习藏语口语的小工具。本助手收集了日常生活用语、电力服务常用语句及基本的常用词汇，以方便使用者查阅和学习；\n2、本助手发音为安多方言，但汉藏语系形式较多，即便是安多方言，也会存在着不同的差异，其书面语和口语之间也会有所不同，助手中个别播音与文字内容稍有差异，请学习者注意；\n3、助手中提供了藏语的谐音读法，但因藏语发音丰富，很多音节无法用汉字准确表述，所以仅供学习者参考，正确读音应以播音为准；\n4、本助手收集的词汇有限，今后将逐步扩充；\n5、我们期待您对本助手提出宝贵的意见，我们会不断完善和改进，以期对您的藏语之行有所助益。"  preferredStyle:UIAlertControllerStyleAlert];
             
@@ -461,6 +480,8 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
             [alert addAction:cancelAction];
             
             [self presentViewController:alert animated:YES completion:nil];
+            
+            self.navBar.searchBarTextField.text = @"";
         }
         
         [self.tableView reloadData];
@@ -546,6 +567,8 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         [weakSelf.tableView reloadData];
     };
     [self.view addSubview:navBar];
+    
+    _navBar = navBar;
 }
 
 - (void)createDirWithPath:(NSString *)path {
@@ -563,6 +586,11 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
     if (!(isDir && existed)) {
         [fileManager createDirectoryAtPath:dataFilePath withIntermediateDirectories:YES attributes:nil error:nil];
     }
+}
+
+// 滚动关闭键盘
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    [self.view endEditing:YES];
 }
 
 - (NSMutableArray *)dataSource {

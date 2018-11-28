@@ -10,7 +10,6 @@
 
 @interface VENNavigationBar ()
 @property (nonatomic, strong) UIImageView *logoImageView;
-@property (nonatomic, strong) UITextField *searchBarTextField;
 @property (nonatomic, strong) UIView *toolsView;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttonsMuArr;
 @property (nonatomic, strong) NSMutableArray *buttonsTitleMuArr;
@@ -105,6 +104,9 @@
 
 - (void)buttonClick:(UIButton *)button {
     
+    _searchBarTextField.text = @"";
+    [self endEditing:YES];
+    
     NSLog(@"第%ld个button", (long)button.tag);
     
     for (UIButton *btn in _buttonsMuArr) {
@@ -128,11 +130,11 @@
         button.selected = NO;
     }
     self.blk3(@"hidden");
-    
+
     NSString *querySQL;
     if ([_searchBarTextField.text rangeOfString:@" "].location != NSNotFound) {
         //        NSLog(@"%@", _searchBarTextField.text);
-        
+
         NSMutableArray *tempMuArr = [NSMutableArray array];
         [tempMuArr addObjectsFromArray:[_searchBarTextField.text componentsSeparatedByString:@" "]];
         NSMutableArray *tempMuArr2 = [NSMutableArray array];
@@ -141,21 +143,45 @@
         }
         NSString *tempStr2 = [tempMuArr2 componentsJoinedByString:@" and name like "];
         querySQL = [NSString stringWithFormat:@"select * from tablewords where name like %@;", tempStr2];
-        
+
         NSLog(@"%@", querySQL);
     } else {
         querySQL = [NSString stringWithFormat:@"select * from tablewords where name like '%%%@%%';", _searchBarTextField.text];
     }
-    
+
     self.blk([[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL], _searchBarTextField.text);
 }
 
 - (void)searchButtonClick {
     
     if (![_searchBarTextField.text isEqualToString:@""] && _searchBarTextField.text.length > 0) {
+//        [self endEditing:YES];
 //
-        
-        
+//        for (UIButton *button in _buttonsMuArr) {
+//            button.selected = NO;
+//        }
+//
+//        self.blk3(@"hidden");
+//
+//        NSString *querySQL;
+//        if ([_searchBarTextField.text rangeOfString:@" "].location != NSNotFound) {
+//            //        NSLog(@"%@", _searchBarTextField.text);
+//
+//            NSMutableArray *tempMuArr = [NSMutableArray array];
+//            [tempMuArr addObjectsFromArray:[_searchBarTextField.text componentsSeparatedByString:@" "]];
+//            NSMutableArray *tempMuArr2 = [NSMutableArray array];
+//            for (NSString *tempStr in tempMuArr) {
+//                [tempMuArr2 addObject:[NSString stringWithFormat:@"'%%%@%%'", tempStr]];
+//            }
+//            NSString *tempStr2 = [tempMuArr2 componentsJoinedByString:@" and name like "];
+//            querySQL = [NSString stringWithFormat:@"select * from tablewords where name like %@;", tempStr2];
+//
+//            NSLog(@"%@", querySQL);
+//        } else {
+//            querySQL = [NSString stringWithFormat:@"select * from tablewords where name like '%%%@%%';", _searchBarTextField.text];
+//        }
+//
+//        self.blk([[VENSQLiteManager sharedSQLiteManager] queryDBWithSQL:querySQL], _searchBarTextField.text);
     }
 }
 

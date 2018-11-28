@@ -17,6 +17,7 @@ typedef void (^ReturnValueBlock) (NSString *strValue, NSInteger buttonTag, NSStr
 @property(nonatomic, copy) ReturnValueBlock returnValueBlock;
 @property (nonatomic, copy) finishBlock2 blk;
 @property (nonatomic, copy) finishBlock3 blk3;
+@property (nonatomic, strong) UITextField *searchBarTextField;
 
 @end
 

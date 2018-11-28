@@ -31,9 +31,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
-    
-    // 悬浮球
-//    [self createDebugSuspensionButton];
 
     self.statusBarLayoutConstraint.constant = [[UIApplication sharedApplication] statusBarFrame].size.height;
     
@@ -69,23 +66,58 @@
         self.progressView.progress =  1.0 * self.currentLength / [totalLength integerValue];
         self.progressLabel.text = [NSString stringWithFormat:@"下载音频文件压缩包%.2fMB/%.2fMB", [currentLength floatValue] / 1024 /1024, [totalLength floatValue] / 1024 /1024];
     } else {
-        if ([[self serverStr] isEqualToString:localStr]) {
-            self.topLabel.text = @"当前已是最近版本";
-            self.imageButton.selected = YES;
-            self.logLabel.hidden = YES;
+        
+        // 检查服务器最新数据
+        NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/Ver.txt"];
+        NSURLRequest *request = [NSURLRequest requestWithURL:url];
+        
+        // 文件路径
+        NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version"];
+        
+        // 创建文件夹
+        [self createDirWithPath:@"version"];
+        
+        // 删除文件
+        BOOL isDelete = [[NSFileManager defaultManager] removeItemAtPath:fullPath error:nil];
+        if (isDelete) {
+            // 创建文件夹
+            [self createDirWithPath:@"version"];
             
-            self.downloadView.hidden = NO;
-            self.continueDownloadButton.backgroundColor = COLOR_THEME;
-            [self.continueDownloadButton setTitle:@"知道了" forState:UIControlStateNormal];
-            self.isFinish = YES;
-            
-        } else {
-            self.topLabel.text = @"发现最新离线数据包";
-            self.imageButton.selected = NO;
-            self.logLabel.hidden = YES;
-            
-            self.downloadView.hidden = YES;
-            self.downloadButton.hidden = NO;
+            // 下载版本信息
+            [[[AFHTTPSessionManager manager] downloadTaskWithRequest:request progress:^(NSProgress * _Nonnull downloadProgress) {
+                
+            } destination:^NSURL * _Nonnull(NSURL * _Nonnull targetPath, NSURLResponse * _Nonnull response) {
+                
+                NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:[NSString stringWithFormat:@"/zyzs/version/%@", response.suggestedFilename]];
+                
+                return [NSURL fileURLWithPath:fullPath];
+                
+            } completionHandler:^(NSURLResponse * _Nonnull response, NSURL * _Nullable filePath, NSError * _Nullable error) {
+                
+                NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version/Ver.txt"];
+                
+                NSString *serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+                
+                if ([serverStr isEqualToString:localStr]) {
+                    self.topLabel.text = @"当前已是最近版本";
+                    self.imageButton.selected = YES;
+                    self.logLabel.hidden = YES;
+                    
+                    self.downloadView.hidden = NO;
+                    self.continueDownloadButton.backgroundColor = COLOR_THEME;
+                    [self.continueDownloadButton setTitle:@"知道了" forState:UIControlStateNormal];
+                    self.isFinish = YES;
+                    
+                } else {
+                    self.topLabel.text = @"发现最新离线数据包";
+                    self.imageButton.selected = NO;
+                    self.logLabel.hidden = YES;
+                    
+                    self.downloadView.hidden = YES;
+                    self.downloadButton.hidden = NO;
+                }
+                
+            }] resume];
         }
     }
     
@@ -384,37 +416,6 @@
 
 - (void)zipArchiveDidUnzipArchiveAtPath:(NSString *)path zipInfo:(unz_global_info)zipInfo unzippedPath:(NSString *)unzippedPath {
     
-    NSString *serverStr = [self serverStr];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setObject:@"0" forKey:@"currentLength"];
-    // 写入版本号
-    [defaults setObject:serverStr forKey:@"version"];
-    [defaults synchronize];
-
-    NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
-    NSLog(@"serverStr %@", serverStr);
-    NSLog(@"localStr %@", localStr);
-
-    // 首页刷新
-    self.blk(@"");
-
-    self.progressView.hidden = YES;
-    self.progressLabel.hidden = YES;
-
-    self.topLabel.text = @"当前已是最近版本";
-    self.imageButton.selected = YES;
-    self.downloadView.hidden = NO;
-    self.logLabel.hidden = YES;
-    self.continueDownloadButton.backgroundColor = COLOR_THEME;
-    [self.continueDownloadButton setTitle:@"知道了" forState:UIControlStateNormal];
-    self.isFinish = YES;
-}
-
-- (NSString *)serverStr {
-    
-    __block NSString *serverStr;
-    
     // 检查服务器最新数据
     NSURL *url = [NSURL URLWithString:@"http://47.92.225.21/Ver.txt"];
     NSURLRequest *request = [NSURLRequest requestWithURL:url];
@@ -444,12 +445,34 @@
             
             NSString *fullPath = [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject] stringByAppendingPathComponent:@"/zyzs/version/Ver.txt"];
             
-            serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+            NSString *serverStr = [NSString stringWithContentsOfFile:fullPath encoding:NSUTF8StringEncoding error:nil];
+            
+            NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+            [defaults setObject:@"0" forKey:@"currentLength"];
+            // 写入版本号
+            [defaults setObject:serverStr forKey:@"version"];
+            [defaults synchronize];
+            
+            NSString *localStr = [[NSUserDefaults standardUserDefaults] objectForKey:@"version"];
+            NSLog(@"serverStr %@", serverStr);
+            NSLog(@"localStr %@", localStr);
+            
+            // 首页刷新
+            self.blk(@"");
+            
+            self.progressView.hidden = YES;
+            self.progressLabel.hidden = YES;
+            
+            self.topLabel.text = @"当前已是最近版本";
+            self.imageButton.selected = YES;
+            self.downloadView.hidden = NO;
+            self.logLabel.hidden = YES;
+            self.continueDownloadButton.backgroundColor = COLOR_THEME;
+            [self.continueDownloadButton setTitle:@"知道了" forState:UIControlStateNormal];
+            self.isFinish = YES;
             
         }] resume];
     }
-    
-    return serverStr;
 }
 
 - (void)createDirWithPath:(NSString *)path {
