@@ -37,6 +37,7 @@
 		2C6E21B621757EBC008E7793 /* wps2B07.tmp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2C6E21A621757EBC008E7793 /* wps2B07.tmp.jpg */; };
 		2C6E21BC21758573008E7793 /* wps2AF1.tmp.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 2C6E21BB21758573008E7793 /* wps2AF1.tmp.jpg */; };
 		2C7661F121A544160052BB4A /* VENClassEmptyManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7661F021A544160052BB4A /* VENClassEmptyManager.m */; };
+		2C8E907E21B10C07003A5E5D /* VENPopupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C8E907D21B10C07003A5E5D /* VENPopupView.m */; };
 		2CAA68BC214B41E200316235 /* libsqlite3.0.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */; };
 		2CCAB164215DD4BC00ADED15 /* VENSQLiteManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CCAB163215DD4BC00ADED15 /* VENSQLiteManager.m */; };
 		2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CE18C59214A7EE800AA468A /* AppDelegate.m */; };
@@ -91,6 +92,8 @@
 		2C6E21BB21758573008E7793 /* wps2AF1.tmp.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = wps2AF1.tmp.jpg; sourceTree = "<group>"; };
 		2C7661EF21A544150052BB4A /* VENClassEmptyManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VENClassEmptyManager.h; sourceTree = "<group>"; };
 		2C7661F021A544160052BB4A /* VENClassEmptyManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VENClassEmptyManager.m; sourceTree = "<group>"; };
+		2C8E907C21B10C07003A5E5D /* VENPopupView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENPopupView.h; sourceTree = "<group>"; };
+		2C8E907D21B10C07003A5E5D /* VENPopupView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENPopupView.m; sourceTree = "<group>"; };
 		2CAA68BB214B41E200316235 /* libsqlite3.0.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.0.tbd; path = usr/lib/libsqlite3.0.tbd; sourceTree = SDKROOT; };
 		2CCAB162215DD4BC00ADED15 /* VENSQLiteManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = VENSQLiteManager.h; sourceTree = "<group>"; };
 		2CCAB163215DD4BC00ADED15 /* VENSQLiteManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = VENSQLiteManager.m; sourceTree = "<group>"; };
@@ -234,6 +237,15 @@
 			path = image;
 			sourceTree = "<group>";
 		};
+		2C8E907B21B10BAC003A5E5D /* PopupView */ = {
+			isa = PBXGroup;
+			children = (
+				2C8E907C21B10C07003A5E5D /* VENPopupView.h */,
+				2C8E907D21B10C07003A5E5D /* VENPopupView.m */,
+			);
+			path = PopupView;
+			sourceTree = "<group>";
+		};
 		2CCAB15E215DD3F200ADED15 /* ShareManager */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +315,7 @@
 		2CE18C76214A863700AA468A /* View */ = {
 			isa = PBXGroup;
 			children = (
+				2C8E907B21B10BAC003A5E5D /* PopupView */,
 				2C0D444521782B1F0074DB93 /* WebView */,
 				2C0D443F21781C3E0074DB93 /* ZyPageView */,
 				2C2484E12151049C00E20B06 /* PopView */,
@@ -501,6 +514,7 @@
 				2C305A4B215E4F7E00349831 /* VENHomePageTableViewCell.m in Sources */,
 				2C7661F121A544160052BB4A /* VENClassEmptyManager.m in Sources */,
 				2CE18C5A214A7EE800AA468A /* AppDelegate.m in Sources */,
+				2C8E907E21B10C07003A5E5D /* VENPopupView.m in Sources */,
 				2C2484E821520B6200E20B06 /* VENMainTableViewCell.m in Sources */,
 				2C4BA00C215F689D00681892 /* VENHelpViewController.m in Sources */,
 				2C62430421593104005216D5 /* VENDataUpdateViewController.m in Sources */,
