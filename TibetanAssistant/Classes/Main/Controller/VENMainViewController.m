@@ -155,10 +155,12 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         if (_changLabelTitle) {
             NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", _dataSource[indexPath.row][@"name"]]];
             
-            for (NSString *keyWord in [_keyWord componentsSeparatedByString:@" "]) {
-//                NSLog(@"%lu", (unsigned long)[_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location);
-                
-                [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange([_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location, keyWord.length)];
+            if (_dataSource[indexPath.row][@"name"] != nil) {
+                for (NSString *keyWord in [_keyWord componentsSeparatedByString:@" "]) {
+                    //                NSLog(@"%lu", (unsigned long)[_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location);
+                    
+                    [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange([_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location, keyWord.length)];
+                }
             }
             
             cell.titleLabel.attributedText = attributedStr;
@@ -549,6 +551,8 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         weakSelf.indexPathRow = -1;
         weakSelf.showCollectionButton = NO;
         self.changLabelTitle = YES;
+        
+        [weakSelf.tableView setContentOffset:CGPointMake(0,0) animated:YES];
         [weakSelf.tableView reloadData];
         
         self.keyWord = keyWord;
