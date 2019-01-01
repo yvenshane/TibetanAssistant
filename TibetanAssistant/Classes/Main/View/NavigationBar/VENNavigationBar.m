@@ -8,7 +8,7 @@
 
 #import "VENNavigationBar.h"
 
-@interface VENNavigationBar ()
+@interface VENNavigationBar () <UITextFieldDelegate>
 @property (nonatomic, strong) UIImageView *logoImageView;
 @property (nonatomic, strong) UIView *toolsView;
 @property (nonatomic, strong) NSMutableArray<UIButton *> *buttonsMuArr;
@@ -35,7 +35,7 @@
         searchBarTextField.placeholder = @"搜索";
         searchBarTextField.layer.cornerRadius = 4.0f;
         searchBarTextField.layer.masksToBounds = YES;
-        
+        searchBarTextField.delegate = self;
         [searchBarTextField addTarget:self action:@selector(textFieldDidChange:) forControlEvents:UIControlEventEditingChanged];
         
         UIView *tempView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 8, 30)];
@@ -125,11 +125,14 @@
     
 }
 
+- (void)textFieldDidBeginEditing:(UITextField *)textField {
+    self.blk3(@"");
+}
+
 - (void)textFieldDidChange:(id)sender {
     for (UIButton *button in _buttonsMuArr) {
         button.selected = NO;
     }
-    self.blk3(@"hidden");
 
     NSString *querySQL;
     if ([_searchBarTextField.text rangeOfString:@" "].location != NSNotFound) {

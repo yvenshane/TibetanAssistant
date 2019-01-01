@@ -155,10 +155,11 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         if (_changLabelTitle) {
             NSMutableAttributedString *attributedStr = [[NSMutableAttributedString alloc] initWithString:[NSString stringWithFormat:@"%@", _dataSource[indexPath.row][@"name"]]];
             
-            if (_dataSource[indexPath.row][@"name"] != nil) {
-                for (NSString *keyWord in [_keyWord componentsSeparatedByString:@" "]) {
-                    //                NSLog(@"%lu", (unsigned long)[_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location);
-                    
+            
+            for (NSString *keyWord in [_keyWord componentsSeparatedByString:@" "]) {
+                //                NSLog(@"%lu", (unsigned long)[_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location);
+                
+                if ([_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location != NSNotFound) {
                     [attributedStr addAttribute:NSForegroundColorAttributeName value:[UIColor redColor] range:NSMakeRange([_dataSource[indexPath.row][@"name"] rangeOfString:keyWord].location, keyWord.length)];
                 }
             }
@@ -544,34 +545,34 @@ static NSString *cellIdentifier1 = @"cellIdentifier1";
         }
     };
     
-    // 搜索
-    navBar.blk = ^(NSArray *arr, NSString *keyWord) {
-        [weakSelf.dataSource removeAllObjects];
-        [weakSelf.dataSource addObjectsFromArray:arr];
-        weakSelf.indexPathRow = -1;
-        weakSelf.showCollectionButton = NO;
-        self.changLabelTitle = YES;
-        
+    navBar.blk3 = ^(NSString *str) {
         [weakSelf.tableView setContentOffset:CGPointMake(0,0) animated:YES];
-        [weakSelf.tableView reloadData];
-        
-        self.keyWord = keyWord;
-        
-        NSLog(@"%@", self.keyWord);
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakSelf.navBar.searchBarTextField becomeFirstResponder];
+        });
     };
     
-    navBar.blk3 = ^(NSString *str) {
+    // 搜索
+    navBar.blk = ^(NSArray *arr, NSString *keyWord) {
+        
+        [weakSelf.dataSource removeAllObjects];
+        [weakSelf.dataSource addObjectsFromArray:arr];
+        
         [weakSelf.popView removeFromSuperview];
         weakSelf.popView = nil;
         
         self.tableView.tableHeaderView = nil;
-        
-//        [weakSelf.dataSource removeAllObjects];
         weakSelf.tableView.frame = CGRectMake(0, 120.5, kMainScreenWidth, kMainScreenHeight - tabBarHeight - 120.5);
         
+        weakSelf.indexPathRow = -1;
+        weakSelf.showCollectionButton = NO;
+        self.changLabelTitle = YES;
+        
+        self.keyWord = keyWord;
         
         [weakSelf.tableView reloadData];
     };
+    
     [self.view addSubview:navBar];
     
     _navBar = navBar;
